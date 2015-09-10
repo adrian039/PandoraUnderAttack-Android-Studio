@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     Socket sockete = null;
     BufferedReader lector = null;
     PrintWriter escritor = null;
+    Conexion conectar=new Conexion();
     Gson gson=new Gson();
 
     @Override
@@ -41,24 +42,27 @@ public class MainActivity extends AppCompatActivity {
         clave = (TextView) findViewById(R.id.lblclave);
         textclave = (EditText) findViewById(R.id.txtclave);
         registrar = (Button) findViewById(R.id.btnregistrarse);
+        conectar.Conectar();
 
-        Thread principal = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    sockete = new Socket("172.26.34.133", 8080);
-                    leer();
-                    escribir();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        principal.start();
         findViewById(R.id.btnregistrarse).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, Registrar.class));
             }
+        });
+        boton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JsonObject o = new JsonObject();
+                o.addProperty("tipo", "ingresar");
+                o.addProperty("nombre", String.valueOf(cuadronombre.getText()));
+                o.addProperty("clave", String.valueOf(textclave.getText()));
+                String enviar_mensaje = gson.toJson(o);
+                conectar.Escribir(enviar_mensaje);
+                System.out.println(enviar_mensaje);
+                cuadronombre.setText("");
+            }
+
         });
 
 
@@ -86,50 +90,8 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void leer(){
-        Thread leer_hilo=new Thread(new Runnable(){
-            public void run(){
-                try{
-                    lector=new BufferedReader(new InputStreamReader(sockete.getInputStream()));
-                    while(true){
 
-                        JsonParser parser = new JsonParser();
-                        String mensaje= lector.readLine();
-                        JsonElement elemento = parser.parse(mensaje);
-                        String mensaje_in=elemento.getAsJsonObject().get("mensaje").getAsString();
 
-                    }
-                }catch(Exception ex){
-                    ex.printStackTrace();
-                }
-            }
 
-        });
-        leer_hilo.start();
-    }
-    public void escribir(){
-        Thread escribir_hilo=new Thread(new Runnable(){
-            public void run(){
-                try{
-                    escritor= new PrintWriter(sockete.getOutputStream(), true);
-                    boton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            JsonObject o = new JsonObject();
-                            o.addProperty("nombre", String.valueOf(cuadronombre.getText()));
-                            String enviar_mensaje = gson.toJson(o);
-                            escritor.println(enviar_mensaje);
-                            System.out.println(enviar_mensaje);
-                            cuadronombre.setText("");
-                        }
-
-                    });
-                }catch(Exception ex){
-                    ex.printStackTrace();
-                }
-            }
-        });
-        escribir_hilo.start();
-    }
 
 }
