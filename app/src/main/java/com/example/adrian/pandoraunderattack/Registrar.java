@@ -11,7 +11,10 @@ import android.app.AlertDialog;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -36,6 +39,7 @@ public class Registrar extends Activity {
         textconfirmclave = (EditText) findViewById(R.id.txtconfirmclave);
         botonregistrar = (Button) findViewById(R.id.btnregistrar);
         conectar12.Conectar();
+        conectar12.Leer();
         botonregistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,17 +50,46 @@ public class Registrar extends Activity {
                 else if ((textclavereg.getText().toString().equals(textconfirmclave.getText().toString()))==false){
                     Toast.makeText(Registrar.this, "Las contraseñas no coinciden", Toast.LENGTH_LONG).show();
                 }
-                else{
+                else {
+                    JsonParser parser = new JsonParser();
                     JsonObject o = new JsonObject();
                     o.addProperty("tipo", "registrar");
                     o.addProperty("nombre", String.valueOf(textusuario.getText()));
                     o.addProperty("clave", String.valueOf(textclavereg.getText()));
-                    String enviar_mensaje = gson.toJson(o);
-                    conectar12.Escribir(enviar_mensaje);
-                    textusuario.setText("");
-                    textclavereg.setText("");
-                    textconfirmclave.setText("");
+                    o.addProperty("clan", "");
+                    String enviarUsuario = gson.toJson(o);
+                    conectar12.Escribir(enviarUsuario);
+                    String respuesta=String.valueOf(conectar12.Entrada());
+                    JsonElement elemento = parser.parse(respuesta);
+                    String respuestaIn=elemento.getAsJsonObject().get("estado").getAsString();
+                    if(respuestaIn.equals("existe")){
+                        Toast.makeText(Registrar.this, "Ya existe un usuario registrado con ese nombre",
+                                Toast.LENGTH_LONG).show();
+                        textusuario.setText("");
+                        textclavereg.setText("");
+                        textconfirmclave.setText("");
+                    }
+                    else{
+                        Toast.makeText(Registrar.this, "Registro Completo",
+                                Toast.LENGTH_LONG).show();
+                        textusuario.setText("");
+                        textclavereg.setText("");
+                        textconfirmclave.setText("");
+                    }
+
                 }
+                //else{
+                  //  JsonObject o = new JsonObject();
+                    //o.addProperty("tipo", "registrar");
+                  //  o.addProperty("nombre", String.valueOf(textusuario.getText()));
+                  //  o.addProperty("clave", String.valueOf(textclavereg.getText()));
+                  //  o.addProperty("clan","");
+                  //  String enviar_mensaje = gson.toJson(o);
+                  //  conectar12.Escribir(enviar_mensaje);
+                  //  textusuario.setText("");
+                  //  textclavereg.setText("");
+                 //   textconfirmclave.setText("");
+               // }
             }
         });
 

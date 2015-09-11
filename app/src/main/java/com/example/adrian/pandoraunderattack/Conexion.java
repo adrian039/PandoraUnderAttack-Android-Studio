@@ -17,6 +17,7 @@ public class Conexion {
     BufferedReader lector = null;
     PrintWriter escritor = null;
     Thread principal=null;
+    String mensaje_in=null;
     Gson gson=new Gson();
     public Conexion(){
 
@@ -25,7 +26,7 @@ public class Conexion {
          principal = new Thread(new Runnable() {
             public void run() {
                 try {
-                    sockete = new Socket("172.26.34.133", 8080);
+                    sockete = new Socket("192.168.0.124", 8080);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -39,11 +40,11 @@ public class Conexion {
                 try{
                     lector=new BufferedReader(new InputStreamReader(sockete.getInputStream()));
                     while(true){
-
                         JsonParser parser = new JsonParser();
                         String mensaje= lector.readLine();
                         JsonElement elemento = parser.parse(mensaje);
-                        String mensaje_in=elemento.getAsJsonObject().get("mensaje").getAsString();
+                        mensaje_in.equals(elemento);
+                        Entrada();
                     }
 
                 }catch(Exception ex){
@@ -55,6 +56,7 @@ public class Conexion {
         leer_hilo.start();
 
     }
+
     public void Escribir(String dato){
 
                 try{
@@ -65,6 +67,9 @@ public class Conexion {
                     ex.printStackTrace();
                 }
 
+    }
+    public String Entrada(){
+        return mensaje_in;
     }
 
 

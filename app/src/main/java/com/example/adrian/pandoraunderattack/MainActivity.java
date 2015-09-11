@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     conectar.Escribir(enviar_mensaje);
                     System.out.println(enviar_mensaje);
                     cuadronombre.setText("");
+                    textclave.setText("");
                 }
 
             }
