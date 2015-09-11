@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -43,24 +45,32 @@ public class MainActivity extends AppCompatActivity {
         textclave = (EditText) findViewById(R.id.txtclave);
         registrar = (Button) findViewById(R.id.btnregistrarse);
         conectar.Conectar();
-
         findViewById(R.id.btnregistrarse).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(MainActivity.this,"hola",Toast.LENGTH_LONG).show();
                 startActivity(new Intent(MainActivity.this, Registrar.class));
+                conectar.principal.interrupt();
+
             }
         });
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JsonObject o = new JsonObject();
-                o.addProperty("tipo", "ingresar");
-                o.addProperty("nombre", String.valueOf(cuadronombre.getText()));
-                o.addProperty("clave", String.valueOf(textclave.getText()));
-                String enviar_mensaje = gson.toJson(o);
-                conectar.Escribir(enviar_mensaje);
-                System.out.println(enviar_mensaje);
-                cuadronombre.setText("");
+                if (cuadronombre.getText().toString().equals("") || textclave.getText().toString().equals("")){
+                    Toast.makeText(MainActivity.this,"Debe ingresar todos los datos",Toast.LENGTH_LONG).show();
+                }
+                else {
+                    JsonObject o = new JsonObject();
+                    o.addProperty("tipo", "ingresar");
+                    o.addProperty("nombre", String.valueOf(cuadronombre.getText()));
+                    o.addProperty("clave", String.valueOf(textclave.getText()));
+                    String enviar_mensaje = gson.toJson(o);
+                    conectar.Escribir(enviar_mensaje);
+                    System.out.println(enviar_mensaje);
+                    cuadronombre.setText("");
+                }
+
             }
 
         });

@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.app.AlertDialog;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.io.BufferedReader;
@@ -29,7 +31,7 @@ public class Registrar extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar);
-        textusuario = (EditText) findViewById(R.id.txtnombre);
+        textusuario = (EditText) findViewById(R.id.txtusuario);
         textclavereg = (EditText) findViewById(R.id.txtclavereg);
         textconfirmclave = (EditText) findViewById(R.id.txtconfirmclave);
         botonregistrar = (Button) findViewById(R.id.btnregistrar);
@@ -37,13 +39,24 @@ public class Registrar extends Activity {
         botonregistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JsonObject o = new JsonObject();
-                o.addProperty("tipo", "registrar");
-                o.addProperty("nombre", "adrian");
-                o.addProperty("clave","adrian12");
-                String enviar_mensaje = gson.toJson(o);
-                conectar12.Escribir(enviar_mensaje);
-
+                if (textusuario.getText().toString().equals("") || textclavereg.getText().toString().equals("")
+                        || textconfirmclave.getText().toString().equals("")){
+                    Toast.makeText(Registrar.this, "Debe ingresar todos los datos", Toast.LENGTH_LONG).show();
+                }
+                else if ((textclavereg.getText().toString().equals(textconfirmclave.getText().toString()))){
+                    Toast.makeText(Registrar.this, "Las contraseñas no coinciden", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    JsonObject o = new JsonObject();
+                    o.addProperty("tipo", "registrar");
+                    o.addProperty("nombre", String.valueOf(textusuario.getText()));
+                    o.addProperty("clave", String.valueOf(textclavereg.getText()));
+                    String enviar_mensaje = gson.toJson(o);
+                    conectar12.Escribir(enviar_mensaje);
+                    textusuario.setText("");
+                    textclavereg.setText("");
+                    textconfirmclave.setText("");
+                }
             }
         });
 
