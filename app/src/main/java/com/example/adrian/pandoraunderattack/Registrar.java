@@ -43,7 +43,7 @@ public class Registrar extends Activity {
                         || textconfirmclave.getText().toString().equals("")){
                     Toast.makeText(Registrar.this, "Debe ingresar todos los datos", Toast.LENGTH_LONG).show();
                 }
-                else if ((textclavereg.getText().toString().equals(textconfirmclave.getText().toString()))){
+                else if ((textclavereg.getText().toString().equals(textconfirmclave.getText().toString()))==false){
                     Toast.makeText(Registrar.this, "Las contraseñas no coinciden", Toast.LENGTH_LONG).show();
                 }
                 else{
