@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnregistrarse).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"hola",Toast.LENGTH_LONG).show();
                 startActivity(new Intent(MainActivity.this, Registrar.class));
                 conectar.principal.interrupt();
 

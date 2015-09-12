@@ -20,13 +20,12 @@ public class Conexion {
     String mensaje_in=null;
     Gson gson=new Gson();
     public Conexion(){
-
     }
     public void Conectar(){
          principal = new Thread(new Runnable() {
             public void run() {
                 try {
-                    sockete = new Socket("192.168.0.124", 8080);
+                    sockete = new Socket("172.26.34.133", 8080);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

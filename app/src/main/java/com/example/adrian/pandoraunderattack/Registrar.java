@@ -28,10 +28,11 @@ public class Registrar extends Activity {
     Socket sockete = null;
     BufferedReader lector = null;
     PrintWriter escritor = null;
-    Conexion conectar12=new Conexion();
+    Conexion conectar12=null;
     Gson gson=new Gson();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        conectar12=new Conexion();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar);
         textusuario = (EditText) findViewById(R.id.txtusuario);
@@ -39,7 +40,7 @@ public class Registrar extends Activity {
         textconfirmclave = (EditText) findViewById(R.id.txtconfirmclave);
         botonregistrar = (Button) findViewById(R.id.btnregistrar);
         conectar12.Conectar();
-        conectar12.Leer();
+        //conectar12.Leer();
         botonregistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,6 +52,7 @@ public class Registrar extends Activity {
                     Toast.makeText(Registrar.this, "Las contraseñas no coinciden", Toast.LENGTH_LONG).show();
                 }
                 else {
+                    conectar12.Leer();
                     JsonParser parser = new JsonParser();
                     JsonObject o = new JsonObject();
                     o.addProperty("tipo", "registrar");
