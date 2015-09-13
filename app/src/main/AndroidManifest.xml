@@ -2,15 +2,33 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.adrian.pandoraunderattack" >
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    //Permisos para que la app funcione
+
+    //GPS
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    //Internet
+    <uses-permission android:name="android.permission.INTERNET" />
+    //Otros
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyA4VyakF5rEeQIL1-87iurqT5_i1MVmH94" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -23,6 +41,10 @@
         <activity
             android:name=".Registrar"
             android:label="@string/title_activity_registrar" >
+        </activity>
+        <activity
+            android:name=".MapasActivity"
+            android:label="@string/title_activity_mapas" >
         </activity>
     </application>
 
