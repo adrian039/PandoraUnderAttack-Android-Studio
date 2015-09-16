@@ -26,8 +26,8 @@ public class MapasActivity extends AppCompatActivity {
 
     //Declaración de variables
     private GoogleMap mapGoogle; //Objeto de tipo google map
-    private TextView Coordenadas;
-    //private Location miLo;
+    //private TextView Coordenadas;
+    private Location miLo;
     int Recurso1; //Cantidades de recursos
     int Recurso2;
     int Recurso3;
