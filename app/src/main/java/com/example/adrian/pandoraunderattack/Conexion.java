@@ -13,6 +13,7 @@ import java.net.Socket;
  * Created by adrian on 9/09/15.
  */
 public class Conexion {
+    public static String mensaje;
     Socket sockete = null;
     BufferedReader lector = null;
     PrintWriter escritor = null;
@@ -25,7 +26,8 @@ public class Conexion {
          principal = new Thread(new Runnable() {
             public void run() {
                 try {
-                    sockete = new Socket("172.26.34.133", 8080);
+                    sockete = new Socket("192.168.0.124", 8080);
+                    Leer();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -38,12 +40,16 @@ public class Conexion {
             public void run(){
                 try{
                     lector=new BufferedReader(new InputStreamReader(sockete.getInputStream()));
-                    while(true){
-                        JsonParser parser = new JsonParser();
-                        String mensaje= lector.readLine();
-                        JsonElement elemento = parser.parse(mensaje);
-                        mensaje_in.equals(elemento);
-                        Entrada();
+                    System.out.println(lector.toString());
+                    while(true) {
+                        if (lector == null) {
+
+                        } else {
+                            String valor = lector.readLine();
+                            Conexion.mensaje = valor.toString();
+                            System.out.print(Conexion.mensaje);
+
+                        }
                     }
 
                 }catch(Exception ex){
@@ -68,7 +74,8 @@ public class Conexion {
 
     }
     public String Entrada(){
-        return mensaje_in;
+        System.out.println(Conexion.mensaje);
+        return Conexion.mensaje;
     }
 
 

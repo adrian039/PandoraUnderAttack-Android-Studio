@@ -49,26 +49,44 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, Registrar.class));
-                conectar.principal.interrupt();
 
             }
         });
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                conectar.Leer();
                 if (cuadronombre.getText().toString().equals("") || textclave.getText().toString().equals("")){
                     Toast.makeText(MainActivity.this,"Debe ingresar todos los datos",Toast.LENGTH_LONG).show();
                 }
                 else {
+                    JsonParser parser = new JsonParser();
                     JsonObject o = new JsonObject();
                     o.addProperty("tipo", "ingresar");
                     o.addProperty("nombre", String.valueOf(cuadronombre.getText()));
                     o.addProperty("clave", String.valueOf(textclave.getText()));
                     String enviar_mensaje = gson.toJson(o);
                     conectar.Escribir(enviar_mensaje);
+                    while(conectar.Entrada()==null){
+                        String respuesta = conectar.Entrada();
+                    }
+                    String respuesta = conectar.Entrada().toString();
+                    JsonElement elemento = parser.parse(respuesta);
+                    String respuestaIn = elemento.getAsJsonObject().get("estado").getAsString();
+                    Conexion.mensaje=null;
+                    if (respuestaIn.equals("error")) {
+                        Toast.makeText(MainActivity.this, "Usuario o contraseña incorrectos",
+                                Toast.LENGTH_LONG).show();
+                        cuadronombre.setText("");
+                        textclave.setText("");
+                    } else {
+                        Toast.makeText(MainActivity.this, "Login Exitoso",
+                                Toast.LENGTH_LONG).show();
+                        cuadronombre.setText("");
+                        textclave.setText("");
+                    }
                     System.out.println(enviar_mensaje);
-                    cuadronombre.setText("");
-                    textclave.setText("");
+
                 }
 
             }
