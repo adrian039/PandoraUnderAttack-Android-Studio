@@ -8,8 +8,8 @@
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
         className = "com.example.adrian.pandoraunderattack.MainActivity"/>
       <point      
-        x = "272"      
-        y = "132"/>
+        x = "24"      
+        y = "-8"/>
     </statePointEntry>
     <statePointEntry>
       <state      
@@ -24,8 +24,8 @@
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
         className = "com.example.adrian.pandoraunderattack.Registrar"/>
       <point      
-        x = "2112"      
-        y = "132"/>
+        x = "1912"      
+        y = "60"/>
     </statePointEntry>
     <statePointEntry>
       <state      
@@ -40,8 +40,8 @@
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
         className = "com.example.adrian.pandoraunderattack.MapasActivity"/>
       <point      
-        x = "1200"      
-        y = "124"/>
+        x = "1044"      
+        y = "8"/>
     </statePointEntry>
     <statePointEntry>
       <state      
