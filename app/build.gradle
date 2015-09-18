@@ -2,12 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        debug {
-            keyAlias 'pandora'
-            keyPassword 'thekillers11'
-            storeFile file('C:/Program Files/Java/jre1.8.0_60/bin/llavePandora.keystore')
-            storePassword 'thekillers11'
-        }
     }
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -22,6 +16,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
         debug {
             signingConfig signingConfigs.debug
