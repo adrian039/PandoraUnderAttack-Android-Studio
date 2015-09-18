@@ -19,14 +19,31 @@
         android:text="Chat"
         android:id="@+id/bChat"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/mapa" />
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Armas"
         android:id="@+id/bArmas"
-        android:layout_alignTop="@+id/bChat"
-        android:layout_alignStart="@+id/mapa" />
+        android:layout_above="@+id/bChat"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recursos"
+        android:id="@+id/bRecursos"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add recurso prueba"
+        android:id="@+id/addRecurso"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/bRecursos" />
 
 </RelativeLayout>
