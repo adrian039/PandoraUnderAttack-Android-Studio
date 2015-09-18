@@ -41,6 +41,14 @@
             android:label="@string/title_activity_registrar" >
         </activity>
         <activity
+            android:name=".BuscarClan"
+            android:label="BuscarClan" >
+        </activity>
+        <activity
+            android:name=".RegistrarClan"
+            android:label="RegistrarClan" >
+        </activity>
+        <activity
             android:name=".MapasActivity"
             android:label="@string/title_activity_mapas" >
         </activity>

@@ -1,8 +1,8 @@
 package com.example.adrian.pandoraunderattack;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,10 +15,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity {
     private TextView nombre;
@@ -28,9 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView clave;
     private EditText textclave;
     private Button registrar;
-    Socket sockete = null;
-    BufferedReader lector = null;
-    PrintWriter escritor = null;
+    public static String usuario;
     Conexion conectar=new Conexion();
     Gson gson=new Gson();
 
@@ -73,17 +67,25 @@ public class MainActivity extends AppCompatActivity {
                     String respuesta = conectar.Entrada().toString();
                     JsonElement elemento = parser.parse(respuesta);
                     String respuestaIn = elemento.getAsJsonObject().get("estado").getAsString();
+                    String estadoClan=elemento.getAsJsonObject().get("clan").getAsString();
                     Conexion.mensaje=null;
                     if (respuestaIn.equals("error")) {
                         Toast.makeText(MainActivity.this, "Usuario o contraseña incorrectos",
                                 Toast.LENGTH_LONG).show();
                         cuadronombre.setText("");
                         textclave.setText("");
-                    } else {
+                    } else if(estadoClan.equals("si")){
+                        Toast.makeText(MainActivity.this, "Este usuario si tiene clan",
+                                Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(MainActivity.this, MapasActivity.class));
+                    }
+                    else{
                         Toast.makeText(MainActivity.this, "Login Exitoso",
                                 Toast.LENGTH_LONG).show();
+                        MainActivity.usuario= String.valueOf(cuadronombre.getText());
                         cuadronombre.setText("");
                         textclave.setText("");
+                        startActivity(new Intent(MainActivity.this, BuscarClan.class));
                     }
                     System.out.println(enviar_mensaje);
 
