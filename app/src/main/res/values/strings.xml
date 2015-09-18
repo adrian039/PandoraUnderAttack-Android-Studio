@@ -4,4 +4,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_registrar">Registrar</string>
+    <string name="title_activity_mapas">Mapa del Juego</string>
+    <string name="title_activity_recursos_activiy">RecursosActiviy</string>
 </resources>
