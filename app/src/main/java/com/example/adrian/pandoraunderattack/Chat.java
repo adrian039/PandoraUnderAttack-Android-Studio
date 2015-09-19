@@ -22,7 +22,7 @@ public class Chat extends AppCompatActivity {
     private EditText escribe;
     private Conexion conectar = new Conexion();
     Gson gson=new Gson();
-
+//rrr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
