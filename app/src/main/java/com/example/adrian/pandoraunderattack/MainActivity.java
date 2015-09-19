@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Este usuario si tiene clan",
                                 Toast.LENGTH_LONG).show();
                         startActivity(new Intent(MainActivity.this, MapasActivity.class));
+                        MainActivity.usuario= String.valueOf(cuadronombre.getText());
                     }
                     else{
                         Toast.makeText(MainActivity.this, "Login Exitoso",
