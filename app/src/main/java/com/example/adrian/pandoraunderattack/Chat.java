@@ -1,7 +1,7 @@
 package com.example.adrian.pandoraunderattack;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -19,7 +18,7 @@ public class Chat extends AppCompatActivity {
 
     private Button enviar;
     public static TextView caja;
-    private EditText escribe;
+    public static EditText escribe;
     private Conexion conectar = new Conexion();
     Gson gson=new Gson();
 
@@ -41,15 +40,13 @@ public class Chat extends AppCompatActivity {
                 else{
                     JsonParser parser = new JsonParser();
                     JsonObject o = new JsonObject();
-                    o.addProperty("tipo", "mensaje");
+                    o.addProperty("tipo", "mensaje1");
                     o.addProperty("message", String.valueOf(escribe.getText()));
                     o.addProperty("usuario",String.valueOf(MainActivity.usuario));
                     String enviar_msj = gson.toJson(o);
                     conectar.Escribir(enviar_msj);
                     String respuesta;
-                    while(conectar.Entrada()==null){
-                        respuesta = conectar.Entrada();
-                    }
+
 
                 }
 
@@ -58,6 +55,7 @@ public class Chat extends AppCompatActivity {
         });
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

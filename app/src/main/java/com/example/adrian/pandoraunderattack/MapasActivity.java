@@ -5,9 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -141,12 +140,18 @@ public class MapasActivity extends MainActivity {
         });
 
         //Boton de agregar recursos de prueba
-        marcador=(Button) findViewById(R.id.addRecurso);
+        marcador = (Button) findViewById(R.id.addRecurso);
         marcador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setCoordenadas();
-                addRecurso(coordenadas.latitude,coordenadas.longitude,1);
+                addRecurso(coordenadas.latitude, coordenadas.longitude, 1);
+            }
+        });
+        findViewById(R.id.bChat).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MapasActivity.this, Chat.class));
             }
         });
     }

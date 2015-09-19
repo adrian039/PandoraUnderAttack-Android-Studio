@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         clave = (TextView) findViewById(R.id.lblclave);
         textclave = (EditText) findViewById(R.id.txtclave);
         registrar = (Button) findViewById(R.id.btnregistrarse);
+        boton.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
         findViewById(R.id.btnregistrarse).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
