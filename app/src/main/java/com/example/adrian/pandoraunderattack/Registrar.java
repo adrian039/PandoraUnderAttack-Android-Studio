@@ -28,7 +28,6 @@ public class Registrar extends MainActivity {
     Gson gson=new Gson();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //conectar12=new Conexion();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar);
         textusuario = (EditText) findViewById(R.id.txtusuario);
