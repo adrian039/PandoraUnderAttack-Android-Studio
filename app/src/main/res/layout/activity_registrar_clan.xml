@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Nombre del Clan"
-            android:id="@+id/textView2"
+            android:id="@+id/dato2"
             android:layout_gravity="center_horizontal" />
 
         <LinearLayout

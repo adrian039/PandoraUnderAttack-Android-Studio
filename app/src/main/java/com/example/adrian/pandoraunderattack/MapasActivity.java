@@ -25,7 +25,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapasActivity extends AppCompatActivity {
+public class MapasActivity extends MainActivity {
 
     //Declaración de variables
     private GoogleMap mapGoogle; //Objeto de tipo google map
@@ -33,11 +33,12 @@ public class MapasActivity extends AppCompatActivity {
     static int Recurso1; //Cantidades de recursos
     static int Recurso2;
     static int Recurso3;
-    private CameraUpdate zoom = CameraUpdateFactory.zoomTo(30); //valor del zoom
+    private CameraUpdate zoom; //valor del zoom
     private LatLng coordenadas; //Objeto que almacenará los valores de la ubicacion
     private boolean buscarme=true;
     private Handler hiloBusqueda; //Hilo que actualiza las coordenadas #REVISAR NO FUNKA
     private Button marcador;
+    private int puntaje;
 
 
     public static int getRecurso1() {
@@ -56,7 +57,6 @@ public class MapasActivity extends AppCompatActivity {
         }
     }
 
-
     public static int getRecurso3() {
         try {
             return Recurso3;
@@ -74,10 +74,9 @@ public class MapasActivity extends AppCompatActivity {
         mapGoogle = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapa)).getMap();
         mapGoogle.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mapGoogle.setMyLocationEnabled(true);
+        zoom = CameraUpdateFactory.zoomTo(30);
 
         //Creacion coordenadas iniciales
-        setCoordenadas();
-        zoomUbicacion(coordenadas);
 
         //Hacer esto thread
         //Hilo para que se actualize "coordenadas" #REVISAR
@@ -98,10 +97,11 @@ public class MapasActivity extends AppCompatActivity {
         });
 
         //Boton de agregar recursos de prueba
-        marcador=(Button) findViewById(R.id.bRecursos);
+        marcador=(Button) findViewById(R.id.addRecurso);
         marcador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setCoordenadas();
                 addRecurso(coordenadas.latitude,coordenadas.longitude,1);
             }
         });
@@ -158,8 +158,8 @@ public class MapasActivity extends AppCompatActivity {
            if (Recurso==1){ //Recurso 1= ?
                Marker RecursoA = mapGoogle.addMarker(new MarkerOptions()
                        .position(Posicion)
-                       .title("NOMBREDELRECURSO1") //Cmabiar por el nombre del recurso
-                       .snippet("NOTA ADICIONAL") //Agregar nota adicional
+                       .title("Gemas") //Cmabiar por el nombre del recurso
+                       .snippet("Piedras de gran valor y difíciles de encontrar") //Agregar nota adicional
                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))); //Color del marcador
 
            }
@@ -167,7 +167,7 @@ public class MapasActivity extends AppCompatActivity {
            else if (Recurso==2){ //Recurso 2=?
                Marker RecursoB = mapGoogle.addMarker(new MarkerOptions()
                        .position(Posicion)
-                       .title("NOMBREDELRECURSO2") //Cmabiar por el nombre del recurso
+                       .title("Oro") //Cmabiar por el nombre del recurso
                        .snippet("NOTA ADICIONAL") //Agregar nota adicional
                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))); //Color del marcador
 
@@ -176,7 +176,7 @@ public class MapasActivity extends AppCompatActivity {
            else if (Recurso==3) { //Recurso 3=?
                Marker RecursoC = mapGoogle.addMarker(new MarkerOptions()
                        .position(Posicion)
-                       .title("NOMBREDELRECURSO3") //Cmabiar por el nombre del recurso
+                       .title("Elixir") //Cmabiar por el nombre del recurso
                        .snippet("NOTA ADICIONAL") //Agregar nota adicional
                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))); //Color del marcador
 
@@ -185,7 +185,7 @@ public class MapasActivity extends AppCompatActivity {
                 //Agregar un else
            }
             mapGoogle.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                final private int Rango=1;//Ajustar rango entre el recurso y nuestra unicacion actual
+                final private int Rango = 1;//Ajustar rango entre el recurso y nuestra unicacion actual
 
                 @Override
                 public void onInfoWindowClick(Marker marker) { //Tomamos el control del metodo onInfo...
@@ -199,26 +199,30 @@ public class MapasActivity extends AppCompatActivity {
 
                     } else {
                         //Agregar que cuando se toca un recurso se sume el recurso X a la cantidad total
-                        if (marker.getTitle()=="NOMBREDELRECURSO1"){
-                            Recurso1+=10;
+                        if (marker.getTitle().equals("Gemas")) {
+                            Recurso1 += 10;
+                            puntaje+=8;
                             Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
                             circleRecurso.remove();
                             marker.remove();
-                        }
-                        else if (marker.getTitle()=="NOMBREDELRECURSO2") {
+                        } else if (marker.getTitle().equals("Oro")) {
                             Recurso2 += 100;
+                            puntaje+=4;
                             Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
                             circleRecurso.remove();
                             marker.remove();
-                        }
-                        else if (marker.getTitle()=="NOMBREDELRECURSO1") {
+                        } else if (marker.getTitle().equals( "Elixir")) {
                             Recurso3 += 1000;
+                            puntaje+=2;
                             Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
                             circleRecurso.remove();
                             marker.remove();
-                        }
-                        else {
+                        } else if (marker.getTitle().equals("RELIQUIA")) {
                             Toast.makeText(getBaseContext(), "Esta es la reliquia del clan", Toast.LENGTH_LONG).show();
+                        } else{
+                            Toast.makeText(getBaseContext(), "Atrapaste la reliquia de otro clan", Toast.LENGTH_LONG).show();
+                            puntaje+=1000;
+                            marker.remove();
                         }
 
                     }
@@ -239,26 +243,19 @@ public class MapasActivity extends AppCompatActivity {
                 .title("RELIQUIA") //Cmabiar por el nombre del recurso
                 .snippet("NOTA ADICIONAL") //Agregar nota adicional
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))); //Color del marcador
-        mapGoogle.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            final private int Rango = 1;//Ajustar rango entre el recurso y nuestra unicacion actual
 
-            @Override
-            public void onInfoWindowClick(Marker marker) { //Tomamos el control del metodo onInfo...
-                setCoordenadas();
-                float[] distancia = new float[2]; //Objeto requerido para poder usar el metodo distance... en Location
-                Location.distanceBetween(coordenadas.latitude, coordenadas.longitude,
-                        marker.getPosition().latitude, marker.getPosition().longitude, distancia);//Calcula la distancia entre puntos
+    }
 
-                if (distancia[0] > Rango) {  //Verifica que la distancia no sea mayor al rango
-                    Toast.makeText(getBaseContext(), "Fuera", Toast.LENGTH_LONG).show();
+    private void addReliquiaEnemiga(){ //Revisar nombre
+        final double LatiReliquia=coordenadas.latitude;
+        final double LongiReliquia=coordenadas.longitude;
 
-                } else {
-                    //Agregar que hacer cuando se acerca a alguna reliquia
-                    Toast.makeText(getBaseContext(), "Dentro", Toast.LENGTH_LONG).show();
-                    marker.remove();
-                }
-            }
-        });
+        Marker ReliquiaEnemiga = mapGoogle.addMarker(new MarkerOptions()
+                .position(coordenadas)
+                .title("Reliquia Enemiga") //Cmabiar por el nombre del recurso
+                .snippet("NOTA ADICIONAL") //Agregar nota adicional
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))); //Color del marcador
+
     }
 
     @Override

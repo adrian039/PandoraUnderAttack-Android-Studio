@@ -1,6 +1,9 @@
 package com.example.adrian.pandoraunderattack;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,6 +12,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -19,6 +24,9 @@ public class RegistrarClan extends MainActivity {
     private EditText nombre;
     private Button registrar;
     Gson gson=new Gson();
+    LocationManager admiUbi;
+    Location ubicacion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +34,11 @@ public class RegistrarClan extends MainActivity {
         escudo=(ImageView)findViewById(R.id.imgClan);
         nombre=(EditText)findViewById(R.id.txtClan);
         registrar=(Button)findViewById(R.id.btnRegClan);
+        admiUbi = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        ubicacion = admiUbi.getLastKnownLocation(admiUbi.GPS_PROVIDER);
+
+        final double Lat = ubicacion.getLatitude();
+        final double Log = ubicacion.getLongitude();
         registrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,6 +53,8 @@ public class RegistrarClan extends MainActivity {
                     o.addProperty("nombre", String.valueOf(nombre.getText()));
                     o.addProperty("creador",String.valueOf(MainActivity.usuario));
                     o.addProperty("imagen","");
+                    o.addProperty("reliquiaLat", String.valueOf(Lat));
+                    o.addProperty("reliquiaLng", String.valueOf(Log));
                     String enviarClan = gson.toJson(o);
                     conectar.Escribir(enviarClan);
                     while(conectar.Entrada()==null){
@@ -57,6 +72,7 @@ public class RegistrarClan extends MainActivity {
                         Toast.makeText(RegistrarClan.this, "Registro Completo",
                                 Toast.LENGTH_LONG).show();
                         nombre.setText("");
+                        startActivity(new Intent(RegistrarClan.this, MapasActivity.class));
 
                     }
                 }

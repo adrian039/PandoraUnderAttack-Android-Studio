@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Clan"
-            android:id="@+id/textView"
+            android:id="@+id/dato1"
             android:layout_gravity="center_horizontal" />
 
         <LinearLayout

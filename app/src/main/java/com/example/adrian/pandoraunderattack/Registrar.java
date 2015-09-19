@@ -1,6 +1,7 @@
 package com.example.adrian.pandoraunderattack;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,10 +39,9 @@ public class Registrar extends MainActivity {
             public void onClick(View v) {
                 conectar.Leer();
                 if (textusuario.getText().toString().equals("") || textclavereg.getText().toString().equals("")
-                        || textconfirmclave.getText().toString().equals("")){
+                        || textconfirmclave.getText().toString().equals("")) {
                     Toast.makeText(Registrar.this, "Debe ingresar todos los datos", Toast.LENGTH_LONG).show();
-                }
-                else if ((textclavereg.getText().toString().equals(textconfirmclave.getText().toString())) == false) {
+                } else if ((textclavereg.getText().toString().equals(textconfirmclave.getText().toString())) == false) {
                     Toast.makeText(Registrar.this, "Las contraseñas no coinciden", Toast.LENGTH_LONG).show();
                 } else {
                     JsonParser parser = new JsonParser();
@@ -52,15 +52,19 @@ public class Registrar extends MainActivity {
                     o.addProperty("clan", "");
                     o.addProperty("socket", "");
                     o.addProperty("rango", "");
+                    o.addProperty("recurso1", 0);
+                    o.addProperty("recurso2",0);
+                    o.addProperty("recurso3",0);
+                    o.addProperty("puntaje",0);
                     String enviarUsuario = gson.toJson(o);
                     conectar.Escribir(enviarUsuario);
-                    while(conectar.Entrada()==null){
+                    while (conectar.Entrada() == null) {
                         String respuesta = conectar.Entrada();
                     }
                     String respuesta = conectar.Entrada().toString();
                     JsonElement elemento = parser.parse(respuesta);
                     String respuestaIn = elemento.getAsJsonObject().get("estado").getAsString();
-                    Conexion.mensaje=null;
+                    Conexion.mensaje = null;
                     if (respuestaIn.equals("existe")) {
                         Toast.makeText(Registrar.this, "Ya existe un usuario registrado con ese nombre",
                                 Toast.LENGTH_LONG).show();
@@ -73,7 +77,9 @@ public class Registrar extends MainActivity {
                         textusuario.setText("");
                         textclavereg.setText("");
                         textconfirmclave.setText("");
+                        startActivity(new Intent(Registrar.this, RegistrarClan.class));
                     }
+
 
                 }
                 //else{

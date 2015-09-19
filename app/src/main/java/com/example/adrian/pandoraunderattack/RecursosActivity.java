@@ -24,9 +24,9 @@ public class RecursosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recursos_activity);
 
         //Iniciacion de los "labels"
-        Recurso1=(TextView) findViewById(R.id.recurso1);
-        Recurso2=(TextView) findViewById(R.id.recurso2);
-        Recurso3=(TextView) findViewById(R.id.recurso3);
+        Recurso1=(TextView) findViewById(R.id.dato1);
+        Recurso2=(TextView) findViewById(R.id.dato2);
+        Recurso3=(TextView) findViewById(R.id.dato3);
         updateRecursos();
 
         //Boton update
