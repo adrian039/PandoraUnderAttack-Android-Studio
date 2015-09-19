@@ -45,7 +45,7 @@ public class MapasActivity extends MainActivity {
     private boolean buscarme=true;
     private Handler hiloBusqueda; //Hilo que actualiza las coordenadas #REVISAR NO FUNKA
     private Button marcador;
-    private int puntaje;
+    private static int puntaje;
 
     /**
      *
@@ -79,6 +79,14 @@ public class MapasActivity extends MainActivity {
     public static int getRecurso3() {
         try {
             return Recurso3;
+        }catch (Exception E){
+            return 0;
+        }
+    }
+
+    public static int getPuntaje(){
+        try {
+            return puntaje;
         }catch (Exception E){
             return 0;
         }

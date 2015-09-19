@@ -9,10 +9,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 /**
  * @author Esteban Agüero Pérez
  */
-public class RecursosActivity extends AppCompatActivity {
+public class RecursosActivity extends MapasActivity {
     private TextView Recurso1;
     private TextView Recurso2;
     private TextView Recurso3;
@@ -62,6 +66,31 @@ public class RecursosActivity extends AppCompatActivity {
         }
 
     }//actualiza la lista de recursos
+
+    public void updateAtributos(){
+        conectar.Leer();
+        JsonParser parser = new JsonParser();
+        JsonObject o = new JsonObject();
+        o.addProperty("tipo", "recursoUpdate");
+        o.addProperty("gemas", getRecurso1());
+        o.addProperty("oro", getRecurso2());
+        o.addProperty("hierro", getRecurso2());
+        o.addProperty("puntaje",getPuntaje());
+        String enviarClan = gson.toJson(o);
+        conectar.Escribir(enviarClan);
+        while(conectar.Entrada()==null){
+            String respuesta = conectar.Entrada();
+        }
+        String respuesta = conectar.Entrada().toString();
+        JsonElement elemento = parser.parse(respuesta);
+        if (elemento.getAsJsonObject().get("estado").getAsString().equals("true")){
+            Toast.makeText(getApplicationContext(), "Error al contactar al servidor", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            //Agregar algo aqui
+        }
+        Conexion.mensaje=null;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
