@@ -29,7 +29,7 @@ public class Conexion {
         principal = new Thread(new Runnable() {
             public void run() {
                 try {
-                    sockete = new Socket("192.168.100.4", 8080);
+                    sockete = new Socket("172.26.99.229", 8080);
                     Leer();
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -55,7 +55,7 @@ public class Registrar extends MainActivity {
                     o.addProperty("clave", String.valueOf(textclavereg.getText()));
                     o.addProperty("clan", "");
                     o.addProperty("socket", "");
-                    o.addProperty("rango", "");
+                    o.addProperty("rango", "cabo");
                     o.addProperty("recurso1", 0);
                     o.addProperty("recurso2",0);
                     o.addProperty("recurso3",0);
