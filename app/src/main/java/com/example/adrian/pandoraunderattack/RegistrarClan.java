@@ -41,8 +41,8 @@ public class RegistrarClan extends MainActivity {
         admiUbi = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         ubicacion = admiUbi.getLastKnownLocation(admiUbi.GPS_PROVIDER);
 
-        final double Lat = ubicacion.getLatitude();
-        final double Log = ubicacion.getLongitude();
+        final double Lat = 8;//ubicacion.getLatitude();
+        final double Log = 8;//ubicacion.getLongitude();
         registrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

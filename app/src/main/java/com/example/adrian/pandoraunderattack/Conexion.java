@@ -1,8 +1,6 @@
 package com.example.adrian.pandoraunderattack;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -22,11 +20,20 @@ public class Conexion {
     String mensaje_in=null;
     Gson gson=new Gson();
     public Conexion(){
+        Conectar();
+    }
+
+    /**
+     * Se encarga de conectar el cliente al servidor
+     */
+    public void Conectar(){
         principal = new Thread(new Runnable() {
             public void run() {
                 try {
-                    sockete = new Socket("172.26.35.35", 8080);
-                    Leer();
+                        if(sockete==null){
+                        sockete = new Socket("172.26.35.35", 8080);
+                        Leer();}
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -34,10 +41,6 @@ public class Conexion {
         });
         principal.start();
     }
-
-    /**
-     * Se encarga de conectar el cliente al servidor
-     */
 
     /**
      * Lee los datos que el servidor le envia
@@ -48,25 +51,13 @@ public class Conexion {
                 try{
                     lector=new BufferedReader(new InputStreamReader(sockete.getInputStream()));
                     System.out.println(lector.toString());
-
                     while(true){
-                        JsonParser parser = new JsonParser();
-                        String mensaje = lector.readLine();
-                        JsonElement elemento = parser.parse(mensaje);
-                        String entrada = elemento.getAsJsonObject().get("tipo").getAsString();
+                        if (lector == null) {
 
-                        if (lector == null){
-                        }
-                        else if(entrada == "chat"){
-                            String chat = elemento.getAsJsonObject().get("chat").getAsString();
-                            Chat.caja.setText(chat + "\n");
-
-                        }
-                        else {
+                        } else {
                             String valor = lector.readLine();
                             Conexion.mensaje = valor.toString();
                             System.out.print(Conexion.mensaje);
-                            //Voy
 
                         }
                     }
