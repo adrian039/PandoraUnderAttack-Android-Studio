@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PandoraUnderAttack-Android-Studio.iml" filepath="$PROJECT_DIR$/PandoraUnderAttack-Android-Studio.iml" />
-      <module fileurl="file://$PROJECT_DIR$/PandoraUnderAttack-Android-Studio.iml" filepath="$PROJECT_DIR$/PandoraUnderAttack-Android-Studio.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/gson-2.2.4/gson-2.2.4.iml" filepath="$PROJECT_DIR$/gson-2.2.4/gson-2.2.4.iml" />
     </modules>
