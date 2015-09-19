@@ -56,6 +56,10 @@
             android:name=".RecursosActivity"
             android:label="@string/title_activity_recursos_activiy" >
         </activity>
+        <activity
+            android:name=".Chat"
+            android:label="@string/title_activity_chat" >
+        </activity>
     </application>
 
 </manifest>

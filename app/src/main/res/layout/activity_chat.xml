@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.adrian.pandoraunderattack.Chat"
+    android:weightSum="1">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="31dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Conversación:"
+        android:id="@+id/textView4" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/cajachat"
+        android:layout_below="@+id/textView4"
+        android:layout_alignParentStart="true"
+        android:backgroundTint="#002b89"
+        android:backgroundTintMode="add"
+        android:layout_above="@+id/texto"
+        android:drawableTint="#3368ff"
+        android:drawableTintMode="src_over"
+        android:contextClickable="false" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/texto"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/sendbut" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enviar"
+        android:id="@+id/sendbut"
+        android:layout_alignTop="@+id/texto"
+        android:layout_alignEnd="@+id/cajachat" />
+</RelativeLayout>
