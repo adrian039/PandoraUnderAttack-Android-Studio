@@ -1,10 +1,7 @@
 package com.example.adrian.pandoraunderattack;
 
-import android.view.View;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -23,7 +20,7 @@ public class Conexion {
     public Conexion(){
     }
     public void Conectar(){
-         principal = new Thread(new Runnable() {
+        principal = new Thread(new Runnable() {
             public void run() {
                 try {
                     sockete = new Socket("192.168.0.124", 8080);
@@ -64,17 +61,17 @@ public class Conexion {
 
     public void Escribir(String dato){
 
-                try{
-                    escritor= new PrintWriter(sockete.getOutputStream(), true);
-                    escritor.println(dato);
-                    System.out.println(dato);
-                }catch(Exception ex){
-                    ex.printStackTrace();
-                }
+        try{
+            escritor= new PrintWriter(sockete.getOutputStream(), true);
+            escritor.println(dato);
+            System.out.println(dato);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
 
     }
     public String Entrada(){
-        System.out.println(Conexion.mensaje);
+//        System.out.println(Conexion.mensaje);
         return Conexion.mensaje;
     }
 
