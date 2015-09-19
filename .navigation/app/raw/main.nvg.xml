@@ -8,8 +8,8 @@
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
         className = "com.example.adrian.pandoraunderattack.MainActivity"/>
       <point      
-        x = "-124"      
-        y = "188"/>
+        x = "134"      
+        y = "248"/>
     </statePointEntry>
     <statePointEntry>
       <state      
@@ -24,16 +24,16 @@
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
         className = "com.example.adrian.pandoraunderattack.RecursosActivity"/>
       <point      
-        x = "4092"      
-        y = "116"/>
+        x = "4357"      
+        y = "352"/>
     </statePointEntry>
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
         className = "com.example.adrian.pandoraunderattack.Registrar"/>
       <point      
-        x = "712"      
-        y = "176"/>
+        x = "1556"      
+        y = "321"/>
     </statePointEntry>
     <statePointEntry>
       <state      
@@ -46,10 +46,26 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.example.adrian.pandoraunderattack.RegistrarClan"/>
+      <point      
+        x = "3257"      
+        y = "3216"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.example.adrian.pandoraunderattack.BuscarClan"/>
+      <point      
+        x = "1483"      
+        y = "3195"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
         className = "com.example.adrian.pandoraunderattack.MapasActivity"/>
       <point      
-        x = "1876"      
-        y = "168"/>
+        x = "3008"      
+        y = "352"/>
     </statePointEntry>
     <statePointEntry>
       <state      

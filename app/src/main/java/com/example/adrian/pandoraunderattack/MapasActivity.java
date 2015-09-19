@@ -79,6 +79,7 @@ public class MapasActivity extends AppCompatActivity {
         setCoordenadas();
         zoomUbicacion(coordenadas);
 
+        //Hacer esto thread
         //Hilo para que se actualize "coordenadas" #REVISAR
         //hiloBusqueda = new Handler();
         //hiloBusqueda.post(new Runnable() {
