@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Elixir"
+        android:text="Hierro"
         android:id="@+id/recurso3"
         android:layout_marginTop="44dp"
         android:layout_below="@+id/dato2"

@@ -59,6 +59,7 @@ public class RegistrarClan extends MainActivity {
                     o.addProperty("imagen","");
                     o.addProperty("reliquiaLat", String.valueOf(Lat));
                     o.addProperty("reliquiaLng", String.valueOf(Log));
+                    o.addProperty("puntaje", "0");
                     String enviarClan = gson.toJson(o);
                     conectar.Escribir(enviarClan);
                     while(conectar.Entrada()==null){
