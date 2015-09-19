@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         clave = (TextView) findViewById(R.id.lblclave);
         textclave = (EditText) findViewById(R.id.txtclave);
         registrar = (Button) findViewById(R.id.btnregistrarse);
-        conectar.Conectar();
         findViewById(R.id.btnregistrarse).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

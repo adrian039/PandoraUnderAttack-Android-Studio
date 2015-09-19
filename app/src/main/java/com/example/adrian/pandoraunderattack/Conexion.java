@@ -13,19 +13,13 @@ import java.net.Socket;
  */
 public class Conexion {
     public static String mensaje;
-    Socket sockete = null;
+    public static Socket sockete = null;
     BufferedReader lector = null;
     PrintWriter escritor = null;
     Thread principal=null;
     String mensaje_in=null;
     Gson gson=new Gson();
     public Conexion(){
-    }
-
-    /**
-     * Se encarga de conectar el cliente al servidor
-     */
-    public void Conectar(){
         principal = new Thread(new Runnable() {
             public void run() {
                 try {
@@ -38,6 +32,10 @@ public class Conexion {
         });
         principal.start();
     }
+
+    /**
+     * Se encarga de conectar el cliente al servidor
+     */
 
     /**
      * Lee los datos que el servidor le envia
