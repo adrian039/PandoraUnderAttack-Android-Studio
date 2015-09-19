@@ -78,10 +78,11 @@ public class Registrar extends MainActivity {
                     } else {
                         Toast.makeText(Registrar.this, "Registro Completo",
                                 Toast.LENGTH_LONG).show();
+                        MainActivity.usuario=String.valueOf(textusuario.getText());
                         textusuario.setText("");
                         textclavereg.setText("");
                         textconfirmclave.setText("");
-                        startActivity(new Intent(Registrar.this, RegistrarClan.class));
+                        startActivity(new Intent(Registrar.this, BuscarClan.class));
                     }
 
 
