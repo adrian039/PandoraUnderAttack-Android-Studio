@@ -25,6 +25,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+/**
+ * Pantalla del mapa (pantalla principal del juego)
+ * @author Esteban Agüero Pérez
+ */
 public class MapasActivity extends MainActivity {
 
     //Declaración de variables
@@ -40,7 +44,10 @@ public class MapasActivity extends MainActivity {
     private Button marcador;
     private int puntaje;
 
-
+    /**
+     *
+     * @return Recurso1
+     */
     public static int getRecurso1() {
         try {
             return Recurso1;
@@ -49,6 +56,11 @@ public class MapasActivity extends MainActivity {
         }
     }
 
+    /**
+     *
+     * @return Recurso2
+     *
+     */
     public static int getRecurso2() {
         try {
             return Recurso2;
@@ -57,6 +69,10 @@ public class MapasActivity extends MainActivity {
         }
     }
 
+    /**
+     *
+     * @return Recurso3
+     */
     public static int getRecurso3() {
         try {
             return Recurso3;
@@ -108,6 +124,9 @@ public class MapasActivity extends MainActivity {
 
     }
 
+    /**
+     * Establece las coordenadaes de la ubicacion actual
+     */
     private void setCoordenadas() {
         Location ubicacion = mapGoogle.getMyLocation(); //Objeto location
         double Lat;
@@ -130,6 +149,10 @@ public class MapasActivity extends MainActivity {
         }
     }
 
+    /**
+     * Realiza zoom a una ubicacion especifica
+     * @param location
+     */
     public void zoomUbicacion(LatLng location) {
         try {
             CameraUpdate ubicar = CameraUpdateFactory.newLatLng(location);
@@ -141,6 +164,12 @@ public class MapasActivity extends MainActivity {
         }
     }
 
+    /**
+     * Añade un recurso al mapa
+     * @param Latitud
+     * @param Longitud
+     * @param Recurso
+     */
     public void addRecurso(final double Latitud, final double Longitud, int Recurso){
 
         final LatLng Posicion = new LatLng(Latitud,Longitud); //Crea objeto tipo LatLng para manejo de coordenadas
@@ -234,6 +263,9 @@ public class MapasActivity extends MainActivity {
 
     }
 
+    /**
+     * Añade la reliquia del clan que esta unido el cliente
+     */
     private void addReliquia(){ //Revisar nombre
         final double LatiReliquia=coordenadas.latitude;
         final double LongiReliquia=coordenadas.longitude;
@@ -246,6 +278,9 @@ public class MapasActivity extends MainActivity {
 
     }
 
+    /**
+     * Añade las reliquias de otros clanes
+     */
     private void addReliquiaEnemiga(){ //Revisar nombre
         final double LatiReliquia=coordenadas.latitude;
         final double LongiReliquia=coordenadas.longitude;

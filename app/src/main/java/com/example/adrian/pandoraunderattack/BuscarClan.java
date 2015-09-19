@@ -12,12 +12,19 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+/**
+ * Esta es la pantalla que busca un clan para unirse
+ * @author Adrian Sanchez
+ */
 public class BuscarClan extends MainActivity {
     private EditText clan;
     private Button unirse;
     private Button crear;
 
-
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +75,11 @@ public class BuscarClan extends MainActivity {
     }
 
 
-
+    /**
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

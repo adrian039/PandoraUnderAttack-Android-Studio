@@ -7,7 +7,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 /**
- * Created by adrian on 9/09/15.
+ * Esta clase realiza la conexion por medio de un socket al servidor
+ * @since 9/09/15.
+ * @author Adrian Sanchez
  */
 public class Conexion {
     public static String mensaje;
@@ -19,6 +21,10 @@ public class Conexion {
     Gson gson=new Gson();
     public Conexion(){
     }
+
+    /**
+     * Se encarga de conectar el cliente al servidor
+     */
     public void Conectar(){
         principal = new Thread(new Runnable() {
             public void run() {
@@ -32,6 +38,10 @@ public class Conexion {
         });
         principal.start();
     }
+
+    /**
+     * Lee los datos que el servidor le envia
+     */
     public void Leer(){
         Thread leer_hilo=new Thread(new Runnable(){
             public void run(){
@@ -59,6 +69,10 @@ public class Conexion {
 
     }
 
+    /**
+     * Envia datos al servidor
+     * @param dato
+     */
     public void Escribir(String dato){
 
         try{

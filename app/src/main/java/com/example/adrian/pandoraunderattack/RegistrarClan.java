@@ -19,6 +19,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+/**
+ * Pantalla de registro de un nuevo clan
+ * @author Adrian Sanchez
+ */
 public class RegistrarClan extends MainActivity {
     private ImageView escudo;
     private EditText nombre;

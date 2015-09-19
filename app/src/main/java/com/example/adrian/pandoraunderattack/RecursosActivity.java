@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * @author Esteban Agüero Pérez
+ */
 public class RecursosActivity extends AppCompatActivity {
     private TextView Recurso1;
     private TextView Recurso2;
