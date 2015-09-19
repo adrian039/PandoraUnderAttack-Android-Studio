@@ -56,9 +56,9 @@ public class Registrar extends MainActivity {
                     o.addProperty("clan", "");
                     o.addProperty("socket", "");
                     o.addProperty("rango", "cabo");
-                    o.addProperty("recurso1", 0);
-                    o.addProperty("recurso2",0);
-                    o.addProperty("recurso3",0);
+                    o.addProperty("gemas", 0);
+                    o.addProperty("oro",0);
+                    o.addProperty("hierro",0);
                     o.addProperty("puntaje",0);
                     String enviarUsuario = gson.toJson(o);
                     conectar.Escribir(enviarUsuario);

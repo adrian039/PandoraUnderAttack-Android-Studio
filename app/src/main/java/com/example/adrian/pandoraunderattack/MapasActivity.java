@@ -240,7 +240,7 @@ public class MapasActivity extends MainActivity {
                             Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
                             circleRecurso.remove();
                             marker.remove();
-                        } else if (marker.getTitle().equals( "Elixir")) {
+                        } else if (marker.getTitle().equals( "Hierro")) {
                             Recurso3 += 1000;
                             puntaje+=2;
                             Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
