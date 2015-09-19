@@ -80,15 +80,15 @@ public class MapasActivity extends AppCompatActivity {
         zoomUbicacion(coordenadas);
 
         //Hilo para que se actualize "coordenadas" #REVISAR
-        hiloBusqueda = new Handler();
-        hiloBusqueda.post(new Runnable() {
-            @Override
-            public void run() {
-                while (buscarme) {
-                    setCoordenadas();
-                }
-            }
-        });
+        //hiloBusqueda = new Handler();
+        //hiloBusqueda.post(new Runnable() {
+        //    @Override
+        //    public void run() {
+        //        while (buscarme) {
+        //           setCoordenadas();
+        //        }
+        //    }
+        //});
         findViewById(R.id.bRecursos).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

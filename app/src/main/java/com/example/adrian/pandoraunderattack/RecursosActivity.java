@@ -45,9 +45,11 @@ public class RecursosActivity extends AppCompatActivity {
 
     public void updateRecursos(){
         try{
+            //valores de los recursos
             valorR1=MapasActivity.getRecurso1();
             valorR2=MapasActivity.getRecurso2();
             valorR3=MapasActivity.getRecurso3();
+            //asignacion de los valores a sus resectivas textView
             Recurso1.setText(Integer.toString(valorR1));
             Recurso2.setText(Integer.toString(valorR2));
             Recurso3.setText(Integer.toString(valorR3));
