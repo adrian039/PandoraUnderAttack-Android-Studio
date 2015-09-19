@@ -1,6 +1,8 @@
 package com.example.adrian.pandoraunderattack;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -48,10 +50,21 @@ public class Conexion {
                 try{
                     lector=new BufferedReader(new InputStreamReader(sockete.getInputStream()));
                     System.out.println(lector.toString());
-                    while(true) {
-                        if (lector == null) {
 
-                        } else {
+                    while(true){
+                        JsonParser parser = new JsonParser();
+                        String mensaje = lector.readLine();
+                        JsonElement elemento = parser.parse(mensaje);
+                        String entrada = elemento.getAsJsonObject().get("tipo").getAsString();
+
+                        if (lector == null){
+                        }
+                        else if(entrada == "chat"){
+                            String chat = elemento.getAsJsonObject().get("chat").getAsString();
+                            Chat.caja.setText(chat + "\n");
+
+                        }
+                        else {
                             String valor = lector.readLine();
                             Conexion.mensaje = valor.toString();
                             System.out.print(Conexion.mensaje);
