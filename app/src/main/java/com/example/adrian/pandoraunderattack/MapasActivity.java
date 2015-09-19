@@ -117,9 +117,9 @@ public class MapasActivity extends MainActivity {
         mapGoogle.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mapGoogle.setMyLocationEnabled(true);
         zoom = CameraUpdateFactory.zoomTo(30);
-        try {
-            setAtributos();
-        }catch (Exception e){}
+        //try {
+        //    setAtributos();
+        //}catch (Exception e){}
         //Creacion coordenadas iniciales
 
         //Hacer esto thread
