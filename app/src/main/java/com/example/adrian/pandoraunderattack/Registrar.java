@@ -124,7 +124,7 @@ public class Registrar extends MainActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void mensaje(String mensaje_1){
+    public void mensaje(String mensaje_1) {
         new AlertDialog.Builder(this)
                 .setMessage(mensaje_1)
                 .setPositiveButton("OK", null)
