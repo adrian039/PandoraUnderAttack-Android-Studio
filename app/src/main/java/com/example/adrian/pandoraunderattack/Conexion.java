@@ -66,6 +66,7 @@ public class Conexion {
                             String valor = lector.readLine();
                             Conexion.mensaje = valor.toString();
                             System.out.print(Conexion.mensaje);
+                            //Voy
 
                         }
                     }

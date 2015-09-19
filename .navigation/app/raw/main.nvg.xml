@@ -30,6 +30,14 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.example.adrian.pandoraunderattack.Chat"/>
+      <point      
+        x = "4419"      
+        y = "1956"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
         className = "com.example.adrian.pandoraunderattack.Registrar"/>
       <point      
         x = "1556"      
@@ -48,16 +56,16 @@
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
         className = "com.example.adrian.pandoraunderattack.RegistrarClan"/>
       <point      
-        x = "3257"      
-        y = "3216"/>
+        x = "1582"      
+        y = "2424"/>
     </statePointEntry>
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
         className = "com.example.adrian.pandoraunderattack.BuscarClan"/>
       <point      
-        x = "1483"      
-        y = "3195"/>
+        x = "389"      
+        y = "2424"/>
     </statePointEntry>
     <statePointEntry>
       <state      
