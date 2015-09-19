@@ -24,6 +24,10 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /**
  * Pantalla del mapa (pantalla principal del juego)
@@ -33,7 +37,7 @@ public class MapasActivity extends MainActivity {
 
     //Declaración de variables
     private GoogleMap mapGoogle; //Objeto de tipo google map
-
+    Gson gson=new Gson();
     static int Recurso1; //Cantidades de recursos
     static int Recurso2;
     static int Recurso3;
@@ -81,6 +85,28 @@ public class MapasActivity extends MainActivity {
         }
     }
 
+    public void setAtributos(){
+        conectar.Leer();
+        JsonParser parser = new JsonParser();
+        JsonObject o = new JsonObject();
+        o.addProperty("tipo", "recurso");
+        o.addProperty("nombre", String.valueOf(MainActivity.usuario));
+        o.addProperty("creador",String.valueOf(MainActivity.usuario));
+        String enviarClan = gson.toJson(o);
+        conectar.Escribir(enviarClan);
+        while(conectar.Entrada()==null){
+            String respuesta = conectar.Entrada();
+        }
+        String respuesta = conectar.Entrada().toString();
+        JsonElement elemento = parser.parse(respuesta);
+        Recurso1 = elemento.getAsJsonObject().get("gemas").getAsInt();
+        Recurso2 = elemento.getAsJsonObject().get("oro").getAsInt();
+        Recurso3 = elemento.getAsJsonObject().get("hierro").getAsInt();
+        puntaje = elemento.getAsJsonObject().get("puntaje").getAsInt();
+        Conexion.mensaje=null;
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,8 +147,8 @@ public class MapasActivity extends MainActivity {
                 addRecurso(coordenadas.latitude,coordenadas.longitude,1);
             }
         });
-
     }
+
 
     /**
      * Establece las coordenadaes de la ubicacion actual
