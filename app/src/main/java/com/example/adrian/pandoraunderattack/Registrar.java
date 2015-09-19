@@ -28,7 +28,6 @@ public class Registrar extends MainActivity {
     Gson gson=new Gson();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //conectar12=new Conexion();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar);
         textusuario = (EditText) findViewById(R.id.txtusuario);
@@ -56,9 +55,9 @@ public class Registrar extends MainActivity {
                     o.addProperty("clan", "");
                     o.addProperty("socket", "");
                     o.addProperty("rango", "cabo");
-                    o.addProperty("gemas", 0);
-                    o.addProperty("oro",0);
-                    o.addProperty("hierro",0);
+                    o.addProperty("gemas", 1);
+                    o.addProperty("oro",10);
+                    o.addProperty("hierro",100);
                     o.addProperty("puntaje",0);
                     String enviarUsuario = gson.toJson(o);
                     conectar.Escribir(enviarUsuario);
