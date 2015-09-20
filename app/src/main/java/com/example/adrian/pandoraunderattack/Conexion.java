@@ -33,7 +33,7 @@ public class Conexion {
             public void run() {
                 try {
                         if(sockete==null){
-                        sockete = new Socket("172.26.100.154", 8080);
+                        sockete = new Socket("192.168.100.4", 8080);
                         Leer();}
 
                 } catch (Exception e) {

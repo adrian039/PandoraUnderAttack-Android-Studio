@@ -35,19 +35,6 @@ public class RecursosActivity extends MapasActivity {
         Recurso2=(TextView) findViewById(R.id.dato2);
         Recurso3=(TextView) findViewById(R.id.dato3);
         updateRecursos();
-
-        //Boton update
-        actualizar=(Button) findViewById(R.id.bActualizar);
-        actualizar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    updateRecursos();
-                }catch (Exception e){
-                    Toast.makeText(getApplicationContext(), "Error al acualizar recursos", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 
     public void updateRecursos(){
@@ -66,32 +53,6 @@ public class RecursosActivity extends MapasActivity {
         }
 
     }//actualiza la lista de recursos
-
-    public void updateAtributos(){
-        conectar.Leer();
-        JsonParser parser = new JsonParser();
-        JsonObject o = new JsonObject();
-        o.addProperty("tipo", "recursoUpdate");
-        o.addProperty("nombre", getUsuario());
-        o.addProperty("gemas", getRecurso1());
-        o.addProperty("oro", getRecurso2());
-        o.addProperty("hierro", getRecurso3());
-        o.addProperty("puntaje",getPuntaje());
-        String enviarClan = gson.toJson(o);
-        conectar.Escribir(enviarClan);
-        while(conectar.Entrada()==null){
-            String respuesta = conectar.Entrada();
-        }
-        String respuesta = conectar.Entrada().toString();
-        JsonElement elemento = parser.parse(respuesta);
-        if (elemento.getAsJsonObject().get("estado").getAsString().equals("false")){
-            Toast.makeText(getApplicationContext(), "Error al contactar al servidor", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            //Agregar algo aqui
-        }
-        Conexion.mensaje=null;
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

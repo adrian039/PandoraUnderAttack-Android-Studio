@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.SyncStateContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,6 +49,56 @@ public class MapasActivity extends MainActivity {
     private Button marcador;
     private static int puntaje;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_mapas);
+
+        //Creacion del view del mapa
+        mapGoogle = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapa)).getMap();
+        mapGoogle.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mapGoogle.setMyLocationEnabled(true);
+        zoom = CameraUpdateFactory.zoomTo(30);
+        try {
+            setAtributos();
+        }catch (Exception e){}
+        //Creacion coordenadas iniciales
+
+        //Hacer esto thread
+        //Hilo para que se actualize "coordenadas" #REVISAR
+        //hiloBusqueda = new Handler();
+        //hiloBusqueda.post(new Runnable() {
+        //    @Override
+        //    public void run() {
+        //        while (buscarme) {
+        //           setCoordenadas();
+        //        }
+        //    }
+        //});
+        findViewById(R.id.bRecursos).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MapasActivity.this, RecursosActivity.class));
+            }
+        });
+
+        //Boton de agregar recursos de prueba
+        marcador = (Button) findViewById(R.id.addRecurso);
+        marcador.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setCoordenadas();
+                addRecurso(coordenadas.latitude, coordenadas.longitude, 1);
+            }
+        });
+        findViewById(R.id.bChat).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MapasActivity.this, Chat.class));
+            }
+        });
+    }
+
     /**
      *
      * @return Recurso1
@@ -86,11 +137,7 @@ public class MapasActivity extends MainActivity {
     }
 
     public static int getPuntaje(){
-        try {
-            return puntaje;
-        }catch (Exception E){
-            return 0;
-        }
+        return puntaje;
     }
 
     public static String getUsuario() {
@@ -118,56 +165,21 @@ public class MapasActivity extends MainActivity {
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mapas);
+    public void updateAtributos(){
+        conectar.Leer();
+        JsonParser parser = new JsonParser();
+        JsonObject o = new JsonObject();
+        o.addProperty("tipo", "recursoUpdate");
+        o.addProperty("nombre", getUsuario());
+        o.addProperty("gemas", getRecurso1());
+        o.addProperty("oro", getRecurso2());
+        o.addProperty("hierro", getRecurso3());
+        o.addProperty("puntaje",getPuntaje());
+        String enviarClan = gson.toJson(o);
+        conectar.Escribir(enviarClan);
+        Conexion.mensaje=null;
 
-        //Creacion del view del mapa
-        mapGoogle = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapa)).getMap();
-        mapGoogle.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mapGoogle.setMyLocationEnabled(true);
-        zoom = CameraUpdateFactory.zoomTo(30);
-        //try {
-        //    setAtributos();
-        //}catch (Exception e){}
-        //Creacion coordenadas iniciales
-
-        //Hacer esto thread
-        //Hilo para que se actualize "coordenadas" #REVISAR
-        //hiloBusqueda = new Handler();
-        //hiloBusqueda.post(new Runnable() {
-        //    @Override
-        //    public void run() {
-        //        while (buscarme) {
-        //           setCoordenadas();
-        //        }
-        //    }
-        //});
-        findViewById(R.id.bRecursos).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MapasActivity.this, RecursosActivity.class));
-            }
-        });
-
-        //Boton de agregar recursos de prueba
-        marcador = (Button) findViewById(R.id.addRecurso);
-        marcador.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setCoordenadas();
-                addRecurso(coordenadas.latitude, coordenadas.longitude, 1);
-            }
-        });
-        findViewById(R.id.bChat).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MapasActivity.this, Chat.class));
-            }
-        });
     }
-
 
     /**
      * Establece las coordenadaes de la ubicacion actual
@@ -300,6 +312,7 @@ public class MapasActivity extends MainActivity {
                         }
 
                     }
+                    updateAtributos();
                 }
             });
 
