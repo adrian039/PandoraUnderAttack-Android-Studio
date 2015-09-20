@@ -41,8 +41,8 @@ public class RegistrarClan extends MainActivity {
         admiUbi = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         ubicacion = admiUbi.getLastKnownLocation(admiUbi.GPS_PROVIDER);
 
-        final double Lat = 8;//ubicacion.getLatitude();
-        final double Log = 8;//ubicacion.getLongitude();
+        final double Lat = ubicacion.getLatitude();
+        final double Log = ubicacion.getLongitude();
         registrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,8 +57,8 @@ public class RegistrarClan extends MainActivity {
                     o.addProperty("nombre", String.valueOf(nombre.getText()));
                     o.addProperty("creador",String.valueOf(MainActivity.usuario));
                     o.addProperty("imagen","");
-                    o.addProperty("reliquiaLat", String.valueOf(Lat));
-                    o.addProperty("reliquiaLng", String.valueOf(Log));
+                    o.addProperty("reliquiaLat", Lat);
+                    o.addProperty("reliquiaLng", Log);
                     o.addProperty("puntaje", 0);
                     String enviarClan = gson.toJson(o);
                     conectar.Escribir(enviarClan);
@@ -93,8 +93,6 @@ public class RegistrarClan extends MainActivity {
             }
         });
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

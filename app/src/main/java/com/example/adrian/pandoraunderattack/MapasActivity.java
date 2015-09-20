@@ -61,20 +61,9 @@ public class MapasActivity extends MainActivity {
         zoom = CameraUpdateFactory.zoomTo(30);
         try {
             setAtributos();
+            addReliquia(getReliquia());
         }catch (Exception e){}
-        //Creacion coordenadas iniciales
 
-        //Hacer esto thread
-        //Hilo para que se actualize "coordenadas" #REVISAR
-        //hiloBusqueda = new Handler();
-        //hiloBusqueda.post(new Runnable() {
-        //    @Override
-        //    public void run() {
-        //        while (buscarme) {
-        //           setCoordenadas();
-        //        }
-        //    }
-        //});
         findViewById(R.id.bRecursos).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -287,27 +276,27 @@ public class MapasActivity extends MainActivity {
                         //Agregar que cuando se toca un recurso se sume el recurso X a la cantidad total
                         if (marker.getTitle().equals("Gemas")) {
                             Recurso1 += 10;
-                            puntaje+=8;
+                            puntaje += 8;
                             Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
                             circleRecurso.remove();
                             marker.remove();
                         } else if (marker.getTitle().equals("Oro")) {
                             Recurso2 += 100;
-                            puntaje+=4;
+                            puntaje += 4;
                             Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
                             circleRecurso.remove();
                             marker.remove();
-                        } else if (marker.getTitle().equals( "Hierro")) {
+                        } else if (marker.getTitle().equals("Hierro")) {
                             Recurso3 += 1000;
-                            puntaje+=2;
+                            puntaje += 2;
                             Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
                             circleRecurso.remove();
                             marker.remove();
                         } else if (marker.getTitle().equals("RELIQUIA")) {
                             Toast.makeText(getBaseContext(), "Esta es la reliquia del clan", Toast.LENGTH_LONG).show();
-                        } else{
+                        } else {
                             Toast.makeText(getBaseContext(), "Atrapaste la reliquia de otro clan", Toast.LENGTH_LONG).show();
-                            puntaje+=1000;
+                            puntaje += 1000;
                             marker.remove();
                         }
 
@@ -321,15 +310,33 @@ public class MapasActivity extends MainActivity {
 
     }
 
+    public LatLng getReliquia(){
+        conectar.Leer();
+        JsonParser parser = new JsonParser();
+        JsonObject o = new JsonObject();
+        o.addProperty("tipo", "miClanReliquia");
+        o.addProperty("nombre", Usuario);
+        String enviarClan = gson.toJson(o);
+        conectar.Escribir(enviarClan);
+        while(conectar.Entrada()==null){
+            String respuesta = conectar.Entrada();
+        }
+        String respuesta = conectar.Entrada().toString();
+        JsonElement elemento = parser.parse(respuesta);
+        double lat= elemento.getAsJsonObject().get("reliquiaLat").getAsDouble();
+        double lng= elemento.getAsJsonObject().get("reliquiaLng").getAsDouble();
+        Conexion.mensaje=null;
+        return new LatLng(lat,lng);
+    }
+
     /**
      * Añade la reliquia del clan que esta unido el cliente
      */
-    private void addReliquia(){ //Revisar nombre
-        final double LatiReliquia=coordenadas.latitude;
-        final double LongiReliquia=coordenadas.longitude;
-
+    private void addReliquia(LatLng reli){ //Revisar nombre
+        //final double LatiReliquia=coordenadas.latitude;
+        //final double LongiReliquia=coordenadas.longitude;
         Marker ReliquiaClan = mapGoogle.addMarker(new MarkerOptions()
-                .position(coordenadas)
+                .position(reli)
                 .title("RELIQUIA") //Cmabiar por el nombre del recurso
                 .snippet("NOTA ADICIONAL") //Agregar nota adicional
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))); //Color del marcador
