@@ -37,9 +37,10 @@ public class MapasActivity extends MainActivity {
     //Declaración de variables
     private GoogleMap mapGoogle; //Objeto de tipo google map
     Gson gson=new Gson();
-    static int Recurso1; //Cantidades de recursos
-    static int Recurso2;
-    static int Recurso3;
+    private static int Recurso1; //Cantidades de recursos
+    private static int Recurso2;
+    private static int Recurso3;
+    private static String Usuario=String.valueOf(MainActivity.usuario);
     private CameraUpdate zoom; //valor del zoom
     private LatLng coordenadas; //Objeto que almacenará los valores de la ubicacion
     private boolean buscarme=true;
@@ -92,13 +93,16 @@ public class MapasActivity extends MainActivity {
         }
     }
 
+    public static String getUsuario() {
+        return Usuario;
+    }
+
     public void setAtributos(){
         conectar.Leer();
         JsonParser parser = new JsonParser();
         JsonObject o = new JsonObject();
         o.addProperty("tipo", "recurso");
-        o.addProperty("nombre", String.valueOf(MainActivity.usuario));
-        o.addProperty("creador",String.valueOf(MainActivity.usuario));
+        o.addProperty("nombre", Usuario);
         String enviarClan = gson.toJson(o);
         conectar.Escribir(enviarClan);
         while(conectar.Entrada()==null){

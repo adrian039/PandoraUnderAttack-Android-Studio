@@ -72,9 +72,10 @@ public class RecursosActivity extends MapasActivity {
         JsonParser parser = new JsonParser();
         JsonObject o = new JsonObject();
         o.addProperty("tipo", "recursoUpdate");
+        o.addProperty("nombre", getUsuario());
         o.addProperty("gemas", getRecurso1());
         o.addProperty("oro", getRecurso2());
-        o.addProperty("hierro", getRecurso2());
+        o.addProperty("hierro", getRecurso3());
         o.addProperty("puntaje",getPuntaje());
         String enviarClan = gson.toJson(o);
         conectar.Escribir(enviarClan);
@@ -83,7 +84,7 @@ public class RecursosActivity extends MapasActivity {
         }
         String respuesta = conectar.Entrada().toString();
         JsonElement elemento = parser.parse(respuesta);
-        if (elemento.getAsJsonObject().get("estado").getAsString().equals("true")){
+        if (elemento.getAsJsonObject().get("estado").getAsString().equals("false")){
             Toast.makeText(getApplicationContext(), "Error al contactar al servidor", Toast.LENGTH_SHORT).show();
         }
         else{
