@@ -38,7 +38,7 @@ public class Chat extends AppCompatActivity {
                     Toast.makeText(Chat.this, "Ingrese un texto", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    JsonParser parser = new JsonParser();
+                    JsonParser parser = new JsonParser(); //Enviar mensajes
                     JsonObject o = new JsonObject();
                     o.addProperty("tipo", "mensaje1");
                     o.addProperty("message", String.valueOf(escribe.getText()));
