@@ -7,13 +7,11 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.SyncStateContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -326,7 +324,8 @@ public class MapasActivity extends MainActivity {
         double lat= elemento.getAsJsonObject().get("reliquiaLat").getAsDouble();
         double lng= elemento.getAsJsonObject().get("reliquiaLng").getAsDouble();
         Conexion.mensaje=null;
-        return new LatLng(lat,lng);
+        LatLng reliquia=new LatLng(lat,lng);
+        return reliquia;
     }
 
     /**

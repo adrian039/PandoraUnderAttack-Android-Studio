@@ -39,7 +39,12 @@ public class RegistrarClan extends MainActivity {
         nombre=(EditText)findViewById(R.id.txtClan);
         registrar=(Button)findViewById(R.id.btnRegClan);
         admiUbi = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        ubicacion = admiUbi.getLastKnownLocation(admiUbi.GPS_PROVIDER);
+        try {
+            ubicacion = admiUbi.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+        }catch (SecurityException e){
+            Toast.makeText(RegistrarClan.this, "ERROR.", Toast.LENGTH_LONG).show();
+        }
+
 
         final double Lat = ubicacion.getLatitude();
         final double Log = ubicacion.getLongitude();
