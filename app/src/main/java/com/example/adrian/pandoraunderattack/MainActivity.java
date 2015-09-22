@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         //Yes button clicked, do something
-                        Toast.makeText(MainActivity.this, "Solicitud Aceptada",
+                        Toast.makeText(MainActivity.this, "Solicitud Aceptada.",
                                 Toast.LENGTH_SHORT).show();
                     }
                 })
