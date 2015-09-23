@@ -53,19 +53,20 @@ public class MapasActivity extends MainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bnotificacion=(Button)findViewById(R.id.bnotificacion);
         setContentView(R.layout.activity_mapas);
+
+        bnotificacion=(Button)findViewById(R.id.bnotificacion);
+        zoom = CameraUpdateFactory.zoomTo(30);
 
         verificar.Verificar(Usuario);
         //Creacion del view del mapa
         mapGoogle = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapa)).getMap();
         mapGoogle.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mapGoogle.setMyLocationEnabled(true);
-        mapGoogle.getUiSettings();
         setCoordenadas();
         zoomUbicacion(coordenadas);
 
-        zoom = CameraUpdateFactory.zoomTo(30);
+
         try {
             setAtributos();
             addReliquia(getReliquia());
