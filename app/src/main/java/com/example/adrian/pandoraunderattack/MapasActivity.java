@@ -57,7 +57,6 @@ public class MapasActivity extends MainActivity {
 
         bnotificacion=(Button)findViewById(R.id.bnotificacion);
         zoom = CameraUpdateFactory.zoomTo(30);
-
         verificar.Verificar(Usuario);
         //Creacion del view del mapa
         mapGoogle = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapa)).getMap();
