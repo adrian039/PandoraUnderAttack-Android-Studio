@@ -1,7 +1,5 @@
 package com.example.adrian.pandoraunderattack;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -49,22 +46,6 @@ public class MainActivity extends AppCompatActivity {
         clave = (TextView) findViewById(R.id.lblclave);
         textclave = (EditText) findViewById(R.id.txtclave);
         registrar = (Button) findViewById(R.id.btnregistrarse);
-        boton.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder
-                .setTitle("Nueva Solicitud")
-                .setMessage("adrian039 quiere unirse a tu clan")
-                .setIcon(android.R.drawable.ic_dialog_info)
-                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Yes button clicked, do something
-                        Toast.makeText(MainActivity.this, "Solicitud Aceptada.",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton("Denegar", null)						//Do nothing on no
-                .show();
 
         findViewById(R.id.btnregistrarse).setOnClickListener(new View.OnClickListener() {
             @Override

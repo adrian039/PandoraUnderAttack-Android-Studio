@@ -1,6 +1,8 @@
 package com.example.adrian.pandoraunderattack;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
@@ -32,13 +34,14 @@ import com.google.gson.JsonParser;
  * @author Esteban Agüero Pérez
  */
 public class MapasActivity extends MainActivity {
-
+    public static Button bnotificacion;
     //Declaración de variables
     private GoogleMap mapGoogle; //Objeto de tipo google map
     Gson gson=new Gson();
     private static int Recurso1; //Cantidades de recursos
     private static int Recurso2;
     private static int Recurso3;
+    Notificaciones verificar=new Notificaciones();
     private static String Usuario=String.valueOf(MainActivity.usuario);
     private CameraUpdate zoom; //valor del zoom
     private LatLng coordenadas; //Objeto que almacenará los valores de la ubicacion
@@ -50,8 +53,9 @@ public class MapasActivity extends MainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        bnotificacion=(Button)findViewById(R.id.bnotificacion);
         setContentView(R.layout.activity_mapas);
-
+        verificar.Verificar(Usuario);
         //Creacion del view del mapa
         mapGoogle = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapa)).getMap();
         mapGoogle.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -82,6 +86,16 @@ public class MapasActivity extends MainActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MapasActivity.this, Chat.class));
+            }
+        });
+        bnotificacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JsonObject o =new JsonObject();
+                o.addProperty("tipo","SolNotificaion");
+                o.addProperty("usuario",Usuario);
+                String enviar_mensaje =gson.toJson(o);
+                conectar.Escribir(enviar_mensaje);
             }
         });
     }
@@ -355,6 +369,50 @@ public class MapasActivity extends MainActivity {
                 .snippet("NOTA ADICIONAL") //Agregar nota adicional
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))); //Color del marcador
 
+    }
+    public void ChangeColor(String boton){
+        if(boton.equals("notificaiones")) {
+            bnotificacion.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
+        }
+        else if(boton.equals("chat")){
+            findViewById(R.id.bChat).setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
+        }
+    }
+    public void MostrarAvisos(String tipo, String Usuario){
+        if(tipo.equals("solicitud")){
+            Toast.makeText(MapasActivity.this,"Nueva solicitud de ingreso al clan de "+Usuario,Toast.LENGTH_LONG).show();
+        }
+        else if(tipo.equals("votacion")){
+            Toast.makeText(MapasActivity.this, "Nueva decision para votar", Toast.LENGTH_LONG).show();
+        }
+    }
+    public void ResponderNotificacion(JsonElement elemento){
+        JsonObject entrada=elemento.getAsJsonObject();
+        String tipo=entrada.getAsJsonObject().get("tipoNotificacion").toString();
+        final String solicitante =entrada.getAsJsonObject().get("solicitante").toString();
+        if(tipo.equals("solicitud")) {
+            final String clan=entrada.getAsJsonObject().get("clan").toString();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder
+                    .setTitle("Nueva Solicitud")
+                    .setMessage(solicitante+" quiere unirse a tu clan")
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            JsonObject o = new JsonObject();
+                            o.addProperty("tipo", "respSolicitud");
+                            o.addProperty("solicitante",solicitante);
+                            o.addProperty("clan",clan);
+                            o.addProperty("estado","aceptada");
+                            String enviar_mensaje=gson.toJson(o);
+                            conectar.Escribir(enviar_mensaje);
+                            Toast.makeText(MapasActivity.this, "Solicitud Aceptada.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("Denegar", null)
+                    .show();
+        }
     }
 
     @Override
