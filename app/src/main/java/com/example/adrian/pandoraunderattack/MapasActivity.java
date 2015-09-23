@@ -236,7 +236,7 @@ public class MapasActivity extends MainActivity {
                 coordenadas = new LatLng(Lat, Log);
             } else {
                 //operadora = admiUbi.getBestProvider(criteria, false);
-                ubicacion = admiUbi.getLastKnownLocation(admiUbi.GPS_PROVIDER);
+                ubicacion = admiUbi.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
                 Lat = ubicacion.getLatitude();
                 Log = ubicacion.getLongitude();
                 coordenadas = new LatLng(Lat, Log);
