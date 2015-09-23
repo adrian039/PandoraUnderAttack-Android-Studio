@@ -55,17 +55,70 @@ public class MapasActivity extends MainActivity {
         super.onCreate(savedInstanceState);
         bnotificacion=(Button)findViewById(R.id.bnotificacion);
         setContentView(R.layout.activity_mapas);
+
         verificar.Verificar(Usuario);
         //Creacion del view del mapa
         mapGoogle = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapa)).getMap();
-        mapGoogle.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mapGoogle.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mapGoogle.setMyLocationEnabled(true);
+        mapGoogle.getUiSettings();
+        setCoordenadas();
+        zoomUbicacion(coordenadas);
+
         zoom = CameraUpdateFactory.zoomTo(30);
         try {
             setAtributos();
             addReliquia(getReliquia());
         }catch (Exception e){}
 
+        //Listener para los markers
+        mapGoogle.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            final private int Rango = 10;//Ajustar rango entre el recurso y nuestra unicacion actual
+
+            @Override
+            public void onInfoWindowClick(Marker marker) { //Tomamos el control del metodo onInfo...
+                setCoordenadas();
+                float[] distancia = new float[2]; //Objeto requerido para poder usar el metodo distance... en Location
+                Location.distanceBetween(coordenadas.latitude, coordenadas.longitude,
+                        marker.getPosition().latitude, marker.getPosition().longitude, distancia);//Calcula la distancia entre puntos
+
+                if (distancia[0] > Rango) {  //Verifica que la distancia no sea mayor al rango
+                    Toast.makeText(getBaseContext(), "Fuera", Toast.LENGTH_LONG).show();
+
+                } else {
+                    //Agregar que cuando se toca un recurso se sume el recurso X a la cantidad total
+                    if (marker.getTitle().equals("Gemas")) {
+                        Recurso1 += 10;
+                        puntaje += 8;
+                        Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
+                        //circleRecurso.remove();
+                        marker.remove();
+                    } else if (marker.getTitle().equals("Oro")) {
+                        Recurso2 += 100;
+                        puntaje += 4;
+                        Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
+                        //circleRecurso.remove();
+                        marker.remove();
+                    } else if (marker.getTitle().equals("Hierro")) {
+                        Recurso3 += 1000;
+                        puntaje += 2;
+                        Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
+                        //circleRecurso.remove();
+                        marker.remove();
+                    } else if (marker.getTitle().equals("RELIQUIA")) {
+                        Toast.makeText(getBaseContext(), "Esta es la reliquia del clan", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getBaseContext(), "Atrapaste la reliquia de otro clan", Toast.LENGTH_LONG).show();
+                        puntaje += 1000;
+                        marker.remove();
+                    }
+
+                }
+                updateAtributos();
+            }
+        });
+
+        //listener del boton recursos
         findViewById(R.id.bRecursos).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,10 +153,6 @@ public class MapasActivity extends MainActivity {
         });
     }
 
-    /**
-     *
-     * @return Recurso1
-     */
     public static int getRecurso1() {
         try {
             return Recurso1;
@@ -112,11 +161,6 @@ public class MapasActivity extends MainActivity {
         }
     }
 
-    /**
-     *
-     * @return Recurso2
-     *
-     */
     public static int getRecurso2() {
         try {
             return Recurso2;
@@ -125,10 +169,6 @@ public class MapasActivity extends MainActivity {
         }
     }
 
-    /**
-     *
-     * @return Recurso3
-     */
     public static int getRecurso3() {
         try {
             return Recurso3;
@@ -181,7 +221,6 @@ public class MapasActivity extends MainActivity {
         Conexion.mensaje=null;
 
     }
-
     /**
      * Establece las coordenadaes de la ubicacion actual
      */
@@ -206,7 +245,6 @@ public class MapasActivity extends MainActivity {
             setCoordenadas();
         }
     }
-
     /**
      * Realiza zoom a una ubicacion especifica
      * @param location
@@ -221,7 +259,6 @@ public class MapasActivity extends MainActivity {
             //Agregar algo xD
         }
     }
-
     /**
      * Añade un recurso al mapa
      * @param Latitud
@@ -230,16 +267,16 @@ public class MapasActivity extends MainActivity {
      */
     public void addRecurso(final double Latitud, final double Longitud, int Recurso){
 
-        final LatLng Posicion = new LatLng(Latitud,Longitud); //Crea objeto tipo LatLng para manejo de coordenadas
+        final LatLng Posicion = new LatLng(Latitud, Longitud); //Crea objeto tipo LatLng para manejo de coordenadas
         zoomUbicacion(Posicion); //Zoom a la ubicacion del recurso
         final Circle circleRecurso; //Crea un circulo alrededor de el recurso
 
-        circleRecurso=mapGoogle.addCircle(new CircleOptions() //Da caracteristicas al circulo
+        /**circleRecurso=mapGoogle.addCircle(new CircleOptions() //Da caracteristicas al circulo
                 .center(Posicion)
                 .radius(1)
                 .strokeColor(Color.RED)
                 .fillColor(Color.BLUE));
-
+        **/
         try{
 
            if (Recurso==1){ //Recurso 1= ?
@@ -271,55 +308,8 @@ public class MapasActivity extends MainActivity {
            else{
                 //Agregar un else
            }
-            mapGoogle.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                final private int Rango = 1;//Ajustar rango entre el recurso y nuestra unicacion actual
-
-                @Override
-                public void onInfoWindowClick(Marker marker) { //Tomamos el control del metodo onInfo...
-                    setCoordenadas();
-                    float[] distancia = new float[2]; //Objeto requerido para poder usar el metodo distance... en Location
-                    Location.distanceBetween(coordenadas.latitude, coordenadas.longitude,
-                            marker.getPosition().latitude, marker.getPosition().longitude, distancia);//Calcula la distancia entre puntos
-
-                    if (distancia[0] > Rango) {  //Verifica que la distancia no sea mayor al rango
-                        Toast.makeText(getBaseContext(), "Fuera", Toast.LENGTH_LONG).show();
-
-                    } else {
-                        //Agregar que cuando se toca un recurso se sume el recurso X a la cantidad total
-                        if (marker.getTitle().equals("Gemas")) {
-                            Recurso1 += 10;
-                            puntaje += 8;
-                            Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
-                            circleRecurso.remove();
-                            marker.remove();
-                        } else if (marker.getTitle().equals("Oro")) {
-                            Recurso2 += 100;
-                            puntaje += 4;
-                            Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
-                            circleRecurso.remove();
-                            marker.remove();
-                        } else if (marker.getTitle().equals("Hierro")) {
-                            Recurso3 += 1000;
-                            puntaje += 2;
-                            Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
-                            circleRecurso.remove();
-                            marker.remove();
-                        } else if (marker.getTitle().equals("RELIQUIA")) {
-                            Toast.makeText(getBaseContext(), "Esta es la reliquia del clan", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(getBaseContext(), "Atrapaste la reliquia de otro clan", Toast.LENGTH_LONG).show();
-                            puntaje += 1000;
-                            marker.remove();
-                        }
-
-                    }
-                    updateAtributos();
-                }
-            });
-
        }catch(Exception e){//Agregar exception
-          }
-
+        }
     }
 
     public LatLng getReliquia(){
@@ -341,7 +331,6 @@ public class MapasActivity extends MainActivity {
         LatLng reliquia=new LatLng(lat,lng);
         return reliquia;
     }
-
     /**
      * Añade la reliquia del clan que esta unido el cliente
      */
@@ -355,7 +344,6 @@ public class MapasActivity extends MainActivity {
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))); //Color del marcador
 
     }
-
     /**
      * Añade las reliquias de otros clanes
      */
@@ -370,6 +358,7 @@ public class MapasActivity extends MainActivity {
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))); //Color del marcador
 
     }
+
     public void ChangeColor(String boton){
         if(boton.equals("notificaiones")) {
             bnotificacion.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
@@ -378,6 +367,7 @@ public class MapasActivity extends MainActivity {
             findViewById(R.id.bChat).setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
         }
     }
+
     public void MostrarAvisos(String tipo, String Usuario){
         if(tipo.equals("solicitud")){
             Toast.makeText(MapasActivity.this,"Nueva solicitud de ingreso al clan de "+Usuario,Toast.LENGTH_LONG).show();
@@ -386,6 +376,7 @@ public class MapasActivity extends MainActivity {
             Toast.makeText(MapasActivity.this, "Nueva decision para votar", Toast.LENGTH_LONG).show();
         }
     }
+
     public void ResponderNotificacion(JsonElement elemento){
         JsonObject entrada=elemento.getAsJsonObject();
         String tipo=entrada.getAsJsonObject().get("tipoNotificacion").toString();
@@ -414,14 +405,12 @@ public class MapasActivity extends MainActivity {
                     .show();
         }
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_mapas, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
