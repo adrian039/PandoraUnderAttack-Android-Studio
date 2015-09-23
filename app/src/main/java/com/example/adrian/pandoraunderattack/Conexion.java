@@ -15,7 +15,7 @@ import java.net.Socket;
 public class Conexion {
     public static String mensaje;
     public static Socket sockete = null;
-    //MapasActivity mapas=null;
+    MapasActivity mapas;
     BufferedReader lector = null;
     PrintWriter escritor = null;
     Thread principal=null;
@@ -68,18 +68,18 @@ public class Conexion {
                         }
                         else if(entrada.equals("solicitud")){
                             String user = elemento.getAsJsonObject().get("usuario").getAsString();
-                           // mapas.ChangeColor("notificaciones");
-                            //mapas.MostrarAvisos("solicitud",user);
+                           mapas.ChangeColor("notificaciones");
+                            mapas.MostrarAvisos("solicitud",user);
                         }
                         else if(entrada.equals("respHayNotificaciones")){
                             String estado = elemento.getAsJsonObject().get("estado").getAsString();
                             if(estado.equals("si")){
-                              //  mapas.ChangeColor("notificaciones");
+                                mapas.ChangeColor("notificaciones");
                             }
                             else{}
                         }
                         else if(entrada.equals("RespSolNotificacion")){
-                            //mapas.ResponderNotificacion(elemento);
+                            mapas.ResponderNotificacion(elemento);
                         }
                         else {
 
