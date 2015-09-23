@@ -1,6 +1,8 @@
 package com.example.adrian.pandoraunderattack;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
@@ -32,13 +34,14 @@ import com.google.gson.JsonParser;
  * @author Esteban Agüero Pérez
  */
 public class MapasActivity extends MainActivity {
-
+    public static Button bnotificacion;
     //Declaración de variables
     private GoogleMap mapGoogle; //Objeto de tipo google map
     Gson gson=new Gson();
     private static int Recurso1; //Cantidades de recursos
     private static int Recurso2;
     private static int Recurso3;
+    Notificaciones verificar=new Notificaciones();
     private static String Usuario=String.valueOf(MainActivity.usuario);
     private CameraUpdate zoom; //valor del zoom
     private LatLng coordenadas; //Objeto que almacenará los valores de la ubicacion
@@ -50,65 +53,18 @@ public class MapasActivity extends MainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        bnotificacion=(Button)findViewById(R.id.bnotificacion);
         setContentView(R.layout.activity_mapas);
-        zoom = CameraUpdateFactory.zoomTo(20);
+        verificar.Verificar(Usuario);
         //Creacion del view del mapa
         mapGoogle = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapa)).getMap();
-        mapGoogle.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mapGoogle.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mapGoogle.setMyLocationEnabled(true);
-        mapGoogle.getUiSettings();
-        setCoordenadas();
-        zoomUbicacion(coordenadas);
+        zoom = CameraUpdateFactory.zoomTo(30);
         try {
             setAtributos();
             addReliquia(getReliquia());
         }catch (Exception e){}
-
-        mapGoogle.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            final private int Rango = 10;//Ajustar rango entre el recurso y nuestra unicacion actual
-
-            @Override
-            public void onInfoWindowClick(Marker marker) { //Tomamos el control del metodo onInfo...
-                setCoordenadas();
-                float[] distancia = new float[2]; //Objeto requerido para poder usar el metodo distance... en Location
-                Location.distanceBetween(coordenadas.latitude, coordenadas.longitude,
-                        marker.getPosition().latitude, marker.getPosition().longitude, distancia);//Calcula la distancia entre puntos
-
-                if (distancia[0] > Rango) {  //Verifica que la distancia no sea mayor al rango
-                    Toast.makeText(getBaseContext(), "Fuera", Toast.LENGTH_LONG).show();
-
-                } else {
-                    //Agregar que cuando se toca un recurso se sume el recurso X a la cantidad total
-                    if (marker.getTitle().equals("Gemas")) {
-                        Recurso1 += 10;
-                        puntaje += 8;
-                        Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
-                        //circleRecurso.remove();
-                        marker.remove();
-                    } else if (marker.getTitle().equals("Oro")) {
-                        Recurso2 += 100;
-                        puntaje += 4;
-                        Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
-                        //circleRecurso.remove();
-                        marker.remove();
-                    } else if (marker.getTitle().equals("Hierro")) {
-                        Recurso3 += 1000;
-                        puntaje += 2;
-                        Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
-                        //circleRecurso.remove();
-                        marker.remove();
-                    } else if (marker.getTitle().equals("RELIQUIA")) {
-                        Toast.makeText(getBaseContext(), "Esta es la reliquia del clan", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getBaseContext(), "Atrapaste la reliquia de otro clan", Toast.LENGTH_LONG).show();
-                        puntaje += 1000;
-                        marker.remove();
-                    }
-
-                }
-                updateAtributos();
-            }
-        });
 
         findViewById(R.id.bRecursos).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,8 +88,22 @@ public class MapasActivity extends MainActivity {
                 startActivity(new Intent(MapasActivity.this, Chat.class));
             }
         });
+        bnotificacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JsonObject o =new JsonObject();
+                o.addProperty("tipo","SolNotificaion");
+                o.addProperty("usuario",Usuario);
+                String enviar_mensaje =gson.toJson(o);
+                conectar.Escribir(enviar_mensaje);
+            }
+        });
     }
 
+    /**
+     *
+     * @return Recurso1
+     */
     public static int getRecurso1() {
         try {
             return Recurso1;
@@ -141,6 +111,12 @@ public class MapasActivity extends MainActivity {
             return 0;
         }
     }
+
+    /**
+     *
+     * @return Recurso2
+     *
+     */
     public static int getRecurso2() {
         try {
             return Recurso2;
@@ -148,6 +124,11 @@ public class MapasActivity extends MainActivity {
             return 0;
         }
     }
+
+    /**
+     *
+     * @return Recurso3
+     */
     public static int getRecurso3() {
         try {
             return Recurso3;
@@ -155,9 +136,11 @@ public class MapasActivity extends MainActivity {
             return 0;
         }
     }
+
     public static int getPuntaje(){
         return puntaje;
     }
+
     public static String getUsuario() {
         return Usuario;
     }
@@ -214,7 +197,7 @@ public class MapasActivity extends MainActivity {
                 coordenadas = new LatLng(Lat, Log);
             } else {
                 //operadora = admiUbi.getBestProvider(criteria, false);
-                ubicacion = admiUbi.getLastKnownLocation(admiUbi.PASSIVE_PROVIDER);
+                ubicacion = admiUbi.getLastKnownLocation(admiUbi.GPS_PROVIDER);
                 Lat = ubicacion.getLatitude();
                 Log = ubicacion.getLongitude();
                 coordenadas = new LatLng(Lat, Log);
@@ -251,12 +234,12 @@ public class MapasActivity extends MainActivity {
         zoomUbicacion(Posicion); //Zoom a la ubicacion del recurso
         final Circle circleRecurso; //Crea un circulo alrededor de el recurso
 
-        /**circleRecurso=mapGoogle.addCircle(new CircleOptions() //Da caracteristicas al circulo
+        circleRecurso=mapGoogle.addCircle(new CircleOptions() //Da caracteristicas al circulo
                 .center(Posicion)
                 .radius(1)
                 .strokeColor(Color.RED)
                 .fillColor(Color.BLUE));
-        */
+
         try{
 
            if (Recurso==1){ //Recurso 1= ?
@@ -288,7 +271,51 @@ public class MapasActivity extends MainActivity {
            else{
                 //Agregar un else
            }
+            mapGoogle.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                final private int Rango = 1;//Ajustar rango entre el recurso y nuestra unicacion actual
 
+                @Override
+                public void onInfoWindowClick(Marker marker) { //Tomamos el control del metodo onInfo...
+                    setCoordenadas();
+                    float[] distancia = new float[2]; //Objeto requerido para poder usar el metodo distance... en Location
+                    Location.distanceBetween(coordenadas.latitude, coordenadas.longitude,
+                            marker.getPosition().latitude, marker.getPosition().longitude, distancia);//Calcula la distancia entre puntos
+
+                    if (distancia[0] > Rango) {  //Verifica que la distancia no sea mayor al rango
+                        Toast.makeText(getBaseContext(), "Fuera", Toast.LENGTH_LONG).show();
+
+                    } else {
+                        //Agregar que cuando se toca un recurso se sume el recurso X a la cantidad total
+                        if (marker.getTitle().equals("Gemas")) {
+                            Recurso1 += 10;
+                            puntaje += 8;
+                            Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
+                            circleRecurso.remove();
+                            marker.remove();
+                        } else if (marker.getTitle().equals("Oro")) {
+                            Recurso2 += 100;
+                            puntaje += 4;
+                            Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
+                            circleRecurso.remove();
+                            marker.remove();
+                        } else if (marker.getTitle().equals("Hierro")) {
+                            Recurso3 += 1000;
+                            puntaje += 2;
+                            Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
+                            circleRecurso.remove();
+                            marker.remove();
+                        } else if (marker.getTitle().equals("RELIQUIA")) {
+                            Toast.makeText(getBaseContext(), "Esta es la reliquia del clan", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getBaseContext(), "Atrapaste la reliquia de otro clan", Toast.LENGTH_LONG).show();
+                            puntaje += 1000;
+                            marker.remove();
+                        }
+
+                    }
+                    updateAtributos();
+                }
+            });
 
        }catch(Exception e){//Agregar exception
           }
@@ -342,6 +369,50 @@ public class MapasActivity extends MainActivity {
                 .snippet("NOTA ADICIONAL") //Agregar nota adicional
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))); //Color del marcador
 
+    }
+    public void ChangeColor(String boton){
+        if(boton.equals("notificaiones")) {
+            bnotificacion.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
+        }
+        else if(boton.equals("chat")){
+            findViewById(R.id.bChat).setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
+        }
+    }
+    public void MostrarAvisos(String tipo, String Usuario){
+        if(tipo.equals("solicitud")){
+            Toast.makeText(MapasActivity.this,"Nueva solicitud de ingreso al clan de "+Usuario,Toast.LENGTH_LONG).show();
+        }
+        else if(tipo.equals("votacion")){
+            Toast.makeText(MapasActivity.this, "Nueva decision para votar", Toast.LENGTH_LONG).show();
+        }
+    }
+    public void ResponderNotificacion(JsonElement elemento){
+        JsonObject entrada=elemento.getAsJsonObject();
+        String tipo=entrada.getAsJsonObject().get("tipoNotificacion").toString();
+        final String solicitante =entrada.getAsJsonObject().get("solicitante").toString();
+        if(tipo.equals("solicitud")) {
+            final String clan=entrada.getAsJsonObject().get("clan").toString();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder
+                    .setTitle("Nueva Solicitud")
+                    .setMessage(solicitante+" quiere unirse a tu clan")
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            JsonObject o = new JsonObject();
+                            o.addProperty("tipo", "respSolicitud");
+                            o.addProperty("solicitante",solicitante);
+                            o.addProperty("clan",clan);
+                            o.addProperty("estado","aceptada");
+                            String enviar_mensaje=gson.toJson(o);
+                            conectar.Escribir(enviar_mensaje);
+                            Toast.makeText(MapasActivity.this, "Solicitud Aceptada.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("Denegar", null)
+                    .show();
+        }
     }
 
     @Override

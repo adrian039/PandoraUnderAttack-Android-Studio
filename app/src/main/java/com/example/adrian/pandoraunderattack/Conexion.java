@@ -3,7 +3,6 @@ package com.example.adrian.pandoraunderattack;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -16,6 +15,7 @@ import java.net.Socket;
 public class Conexion {
     public static String mensaje;
     public static Socket sockete = null;
+    //MapasActivity mapas=null;
     BufferedReader lector = null;
     PrintWriter escritor = null;
     Thread principal=null;
@@ -67,7 +67,19 @@ public class Conexion {
                             Chat.escribe.setText("");
                         }
                         else if(entrada.equals("solicitud")){
-
+                            String user = elemento.getAsJsonObject().get("usuario").getAsString();
+                           // mapas.ChangeColor("notificaciones");
+                            //mapas.MostrarAvisos("solicitud",user);
+                        }
+                        else if(entrada.equals("respHayNotificaciones")){
+                            String estado = elemento.getAsJsonObject().get("estado").getAsString();
+                            if(estado.equals("si")){
+                              //  mapas.ChangeColor("notificaciones");
+                            }
+                            else{}
+                        }
+                        else if(entrada.equals("RespSolNotificacion")){
+                            //mapas.ResponderNotificacion(elemento);
                         }
                         else {
 
