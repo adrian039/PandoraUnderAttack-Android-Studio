@@ -42,7 +42,6 @@ public class RegistrarClan extends MainActivity {
             Toast.makeText(RegistrarClan.this, "ERROR.", Toast.LENGTH_LONG).show();
         }
 
-
         final double Lat = ubicacion.getLatitude();
         final double Log = ubicacion.getLongitude();
         registrar.setOnClickListener(new View.OnClickListener() {
