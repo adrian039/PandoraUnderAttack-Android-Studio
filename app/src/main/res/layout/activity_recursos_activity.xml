@@ -85,4 +85,35 @@
         android:id="@+id/bActualizar"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/almacengemas"
+        android:src="@drawable/almacengemas"
+        android:layout_alignBottom="@+id/recurso2"
+        android:layout_alignStart="@+id/almacenhierro" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/almacenoro"
+        android:src="@drawable/almacenoro"
+        android:layout_below="@+id/recurso1"
+        android:layout_alignStart="@+id/almacengemas" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/almacenhierro"
+        android:src="@drawable/almacenhierro"
+        android:layout_below="@+id/dato2"
+        android:layout_toEndOf="@+id/titulo"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/bActualizar" /><![CDATA[
+
+    />
+
+
+]]>
 </RelativeLayout>
