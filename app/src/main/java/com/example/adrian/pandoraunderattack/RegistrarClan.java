@@ -96,6 +96,14 @@ public class RegistrarClan extends MainActivity {
         });
     }
 
+    public void onActivityResult(int reqCode, int resCode, Intent data){
+        if (resCode == RESULT_OK){
+            if (reqCode==1) {
+                escudo.setImageURI(data.getData());
+            }
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
