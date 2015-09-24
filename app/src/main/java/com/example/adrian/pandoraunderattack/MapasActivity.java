@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
@@ -132,7 +134,7 @@ public class MapasActivity extends MainActivity {
             @Override
             public void onClick(View v) {
                 setCoordenadas();
-                addRecurso(coordenadas.latitude, coordenadas.longitude, 1);
+                addRecurso(coordenadas.latitude, coordenadas.longitude, 3);
             }
         });
         findViewById(R.id.bChat).setOnClickListener(new View.OnClickListener() {
@@ -278,13 +280,16 @@ public class MapasActivity extends MainActivity {
                 .fillColor(Color.BLUE));
         **/
         try{
+            Bitmap bMapGemas = BitmapFactory.decodeResource(getResources(), R.drawable.gemas);
+            Bitmap bMapOro = BitmapFactory.decodeResource(getResources(), R.drawable.oro);
+            Bitmap bMapHierro = BitmapFactory.decodeResource(getResources(), R.drawable.hierro);
 
            if (Recurso==1){ //Recurso 1= ?
                Marker RecursoA = mapGoogle.addMarker(new MarkerOptions()
                        .position(Posicion)
                        .title("Gemas") //Cmabiar por el nombre del recurso
                        .snippet("Piedras de gran valor y difíciles de encontrar") //Agregar nota adicional
-                       .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))); //Color del marcador
+                       .icon(BitmapDescriptorFactory.fromBitmap(bMapGemas))); //Color del marcador
 
            }
 
@@ -293,17 +298,17 @@ public class MapasActivity extends MainActivity {
                        .position(Posicion)
                        .title("Oro") //Cmabiar por el nombre del recurso
                        .snippet("NOTA ADICIONAL") //Agregar nota adicional
-                       .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))); //Color del marcador
-
+                     //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))); //Color del marcador
+                       .icon(BitmapDescriptorFactory.fromBitmap(bMapOro))); //Color del marcador
            }
 
            else if (Recurso==3) { //Recurso 3=?
                Marker RecursoC = mapGoogle.addMarker(new MarkerOptions()
                        .position(Posicion)
-                       .title("Elixir") //Cmabiar por el nombre del recurso
-                       .snippet("NOTA ADICIONAL") //Agregar nota adicional
-                       .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))); //Color del marcador
-
+                       .title("Hierro") //Cmabiar por el nombre del recurso
+                       .snippet("NOTA ADICIONAL") //Agregar nota adiciona
+                     //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))); //Color del marcador
+                       .icon(BitmapDescriptorFactory.fromBitmap(bMapHierro))); //Color del marcador
            }
            else{
                 //Agregar un else
@@ -337,12 +342,13 @@ public class MapasActivity extends MainActivity {
     private void addReliquia(LatLng reli){ //Revisar nombre
         //final double LatiReliquia=coordenadas.latitude;
         //final double LongiReliquia=coordenadas.longitude;
+        Bitmap bMapReliquia = BitmapFactory.decodeResource(getResources(), R.drawable.reliquia);
         Marker ReliquiaClan = mapGoogle.addMarker(new MarkerOptions()
                 .position(reli)
                 .title("RELIQUIA") //Cmabiar por el nombre del recurso
                 .snippet("NOTA ADICIONAL") //Agregar nota adicional
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))); //Color del marcador
-
+              //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))); //Color del marcador
+                .icon(BitmapDescriptorFactory.fromBitmap(bMapReliquia))); //Color del marcador
     }
     /**
      * Añade las reliquias de otros clanes
