@@ -9,9 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 public class Chat extends AppCompatActivity {
 
@@ -28,7 +28,6 @@ public class Chat extends AppCompatActivity {
         enviar = (Button) findViewById(R.id.sendbut);
         caja = (TextView) findViewById(R.id.cajachat);
         escribe = (EditText) findViewById(R.id.texto);
-
         enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,7 +36,7 @@ public class Chat extends AppCompatActivity {
                     Toast.makeText(Chat.this, "Ingrese un texto", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    JsonParser parser = new JsonParser(); //Enviar mensajes
+                    //Enviar mensajes
                     JsonObject o = new JsonObject();
                     o.addProperty("tipo", "mensaje1");
                     o.addProperty("message", String.valueOf(escribe.getText()));
