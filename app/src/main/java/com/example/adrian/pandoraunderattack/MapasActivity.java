@@ -414,6 +414,7 @@ public class MapasActivity extends MainActivity {
                     })
                     .setNegativeButton("Denegar", null)
                     .show();
+
         }
         else if (tipo.equals("noHay")) {
             Toast.makeText(MapasActivity.this, "No hay solicitudes nuevas",
@@ -440,7 +441,9 @@ public class MapasActivity extends MainActivity {
             Toast.makeText(MapasActivity.this, "Tienes nuevas notificaciones",
                     Toast.LENGTH_SHORT).show();
         }
+
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

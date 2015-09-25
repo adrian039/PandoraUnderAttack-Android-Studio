@@ -1,7 +1,5 @@
 package com.example.adrian.pandoraunderattack;
 
-import android.support.v7.app.AppCompatActivity;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -15,12 +13,11 @@ import java.net.Socket;
  * @since 9/09/15.
  * @author Adrian Sanchez
  */
-public class Conexion  extends AppCompatActivity{
+public class Conexion {
     public static JsonElement mensaje;
     public static Socket sockete = null;
     BufferedReader lector = null;
     PrintWriter escritor = null;
-    MapasActivity mapa;
     Thread principal=null;
     String mensaje_in=null;
     Gson gson=new Gson();
@@ -69,24 +66,6 @@ public class Conexion  extends AppCompatActivity{
                             Chat.caja.setText(Chat.caja.getText().toString()+ "\n"+ chat + "\n");
                             Chat.escribe.setText("");
                         }
-                        /**else if(entrada.equals("solicitud")){
-                            System.out.println("************ si le llegan solicitudes *********");
-                            String user = elemento.getAsJsonObject().get("usuario").getAsString();
-                            mapa.ChangeColor("notificaciones");
-                            mapa.MostrarAvisos("solicitud", user.toString());
-                        }
-                        else if(entrada.equals("respHayNotificaciones")){
-                            System.out.println(entrada);
-                            String estado = elemento.getAsJsonObject().get("estado").getAsString();
-                            if(estado.equals("si")) {
-                                mapa.ChangeColor("notificaciones");
-                            }
-                            else{mapa.ChangeColor("notificaciones");}
-                        }
-                        //else if(entrada.equals("RespSolNotificacion")){
-                          //  mapa.ResponderNotificacion(elemento);
-
-                        //}**/
                         else {
 
                             Conexion.mensaje = elemento;
