@@ -64,10 +64,8 @@ public class RegistrarClan extends MainActivity {
                     String enviarClan = gson.toJson(o);
                     conectar.Escribir(enviarClan);
                     while(conectar.Entrada()==null){
-                        String respuesta = conectar.Entrada();
                     }
-                    String respuesta = conectar.Entrada().toString();
-                    JsonElement elemento = parser.parse(respuesta);
+                    JsonElement elemento = conectar.Entrada();
                     String respuestaIn = elemento.getAsJsonObject().get("estado").getAsString();
                     Conexion.mensaje=null;
                     if (respuestaIn.equals("existe")) {

@@ -52,12 +52,9 @@ public class BuscarClan extends MainActivity {
                     String enviarSolicitud = gson.toJson(o);
                     conectar.Escribir(enviarSolicitud);
                     while(conectar.Entrada()==null){
-                        String respuesta = conectar.Entrada();
                     }
-                    String respuesta = conectar.Entrada().toString();
-                    JsonElement elemento = parser.parse(respuesta);
+                    JsonElement elemento = conectar.Entrada();
                     String respuestaIn = elemento.getAsJsonObject().get("estado").getAsString();
-                    Conexion.mensaje=null;
                     if (respuestaIn.equals("error")) {
                         Toast.makeText(BuscarClan.this, "No existe un clan registrado con ese nombre",
                                 Toast.LENGTH_LONG).show();
@@ -65,7 +62,7 @@ public class BuscarClan extends MainActivity {
                         Toast.makeText(BuscarClan.this, "Solicitud enviada correctamente",
                                 Toast.LENGTH_LONG).show();
                         clan.setText("");
-
+                        Conexion.mensaje=null;
                     }
                 }
             }

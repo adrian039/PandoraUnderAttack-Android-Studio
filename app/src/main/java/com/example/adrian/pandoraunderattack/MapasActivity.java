@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -16,13 +15,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -59,7 +58,6 @@ public class MapasActivity extends MainActivity {
 
         bnotificacion=(Button)findViewById(R.id.bnotificacion);
         zoom = CameraUpdateFactory.zoomTo(30);
-        verificar.Verificar(Usuario);
         //Creacion del view del mapa
         mapGoogle = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapa)).getMap();
         mapGoogle.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -146,13 +144,10 @@ public class MapasActivity extends MainActivity {
         bnotificacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JsonObject o =new JsonObject();
-                o.addProperty("tipo","SolNotificaion");
-                o.addProperty("usuario",Usuario);
-                String enviar_mensaje =gson.toJson(o);
-                conectar.Escribir(enviar_mensaje);
+               ResponderNotificacion();
             }
         });
+        Verificar();
     }
 
     public static int getRecurso1() {
@@ -196,7 +191,7 @@ public class MapasActivity extends MainActivity {
         String enviarClan = gson.toJson(o);
         conectar.Escribir(enviarClan);
         while(conectar.Entrada()==null){
-            String respuesta = conectar.Entrada();
+
         }
         String respuesta = conectar.Entrada().toString();
         JsonElement elemento = parser.parse(respuesta);
@@ -326,7 +321,7 @@ public class MapasActivity extends MainActivity {
         String enviarClan = gson.toJson(o);
         conectar.Escribir(enviarClan);
         while(conectar.Entrada()==null){
-            String respuesta = conectar.Entrada();
+
         }
         String respuesta = conectar.Entrada().toString();
         JsonElement elemento = parser.parse(respuesta);
@@ -370,7 +365,7 @@ public class MapasActivity extends MainActivity {
             bnotificacion.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
         }
         else if(boton.equals("chat")){
-            findViewById(R.id.bChat).setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
+            bnotificacion.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
         }
     }
 
@@ -383,12 +378,22 @@ public class MapasActivity extends MainActivity {
         }
     }
 
-    public void ResponderNotificacion(JsonElement elemento){
+    public void ResponderNotificacion(){
+        JsonObject o = new JsonObject();
+        o.addProperty("tipo", "SolNotificacion");
+        o.addProperty("usuario", Usuario);
+        String enviar_mensaje=gson.toJson(o);
+        conectar.Escribir(enviar_mensaje);
+        Conexion.mensaje=null;
+        while (conectar.Entrada() == null) {
+            JsonElement respuesta = conectar.Entrada();
+        }
+        JsonElement elemento = conectar.Entrada();
         JsonObject entrada=elemento.getAsJsonObject();
-        String tipo=entrada.getAsJsonObject().get("tipoNotificacion").toString();
-        final String solicitante =entrada.getAsJsonObject().get("solicitante").toString();
+        String tipo=entrada.getAsJsonObject().get("tipoNotificacion").getAsString();
         if(tipo.equals("solicitud")) {
-            final String clan=entrada.getAsJsonObject().get("clan").toString();
+            final String solicitante =entrada.getAsJsonObject().get("solicitante").getAsString();
+            final String clan=entrada.getAsJsonObject().get("clan").getAsString();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
                     .setTitle("Nueva Solicitud")
@@ -409,6 +414,31 @@ public class MapasActivity extends MainActivity {
                     })
                     .setNegativeButton("Denegar", null)
                     .show();
+        }
+        else if (tipo.equals("noHay")) {
+            Toast.makeText(MapasActivity.this, "No hay solicitudes nuevas",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void Verificar(){
+        JsonParser parser = new JsonParser();
+        JsonObject o = new JsonObject();
+        o.addProperty("tipo","HayNotificaciones");
+        o.addProperty("usuario",Usuario);
+        String solicitud = gson.toJson(o);
+        conectar.Escribir(solicitud);
+        Conexion.mensaje=null;
+        while (conectar.Entrada() == null) {
+            JsonElement respuesta = conectar.Entrada();
+        }
+        JsonElement elemento = conectar.Entrada();
+        JsonObject entrada=elemento.getAsJsonObject();
+        String tipo=entrada.getAsJsonObject().get("tipo").getAsString();
+        String estado=entrada.getAsJsonObject().get("estado").getAsString();
+        if(tipo.equals("respHayNotificaciones") && estado.equals("si")){
+            ChangeColor("notificaiones");
+            Toast.makeText(MapasActivity.this, "Tienes nuevas notificaciones",
+                    Toast.LENGTH_SHORT).show();
         }
     }
     @Override

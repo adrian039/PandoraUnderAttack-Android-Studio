@@ -1,8 +1,11 @@
 package com.example.adrian.pandoraunderattack;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -12,12 +15,12 @@ import java.net.Socket;
  * @since 9/09/15.
  * @author Adrian Sanchez
  */
-public class Conexion {
-    public static String mensaje;
+public class Conexion  extends AppCompatActivity{
+    public static JsonElement mensaje;
     public static Socket sockete = null;
-    MapasActivity mapas;
     BufferedReader lector = null;
     PrintWriter escritor = null;
+    MapasActivity mapa;
     Thread principal=null;
     String mensaje_in=null;
     Gson gson=new Gson();
@@ -33,7 +36,7 @@ public class Conexion {
             public void run() {
                 try {
                         if(sockete==null){
-                        sockete = new Socket("192.168.100.4", 8080);
+                        sockete = new Socket("192.168.0.124", 8080);
                         Leer();}
 
                 } catch (Exception e) {
@@ -66,24 +69,27 @@ public class Conexion {
                             Chat.caja.setText(Chat.caja.getText().toString()+ "\n"+ chat + "\n");
                             Chat.escribe.setText("");
                         }
-                        else if(entrada.equals("solicitud")){
+                        /**else if(entrada.equals("solicitud")){
+                            System.out.println("************ si le llegan solicitudes *********");
                             String user = elemento.getAsJsonObject().get("usuario").getAsString();
-                           mapas.ChangeColor("notificaciones");
-                            mapas.MostrarAvisos("solicitud",user);
+                            mapa.ChangeColor("notificaciones");
+                            mapa.MostrarAvisos("solicitud", user.toString());
                         }
                         else if(entrada.equals("respHayNotificaciones")){
+                            System.out.println(entrada);
                             String estado = elemento.getAsJsonObject().get("estado").getAsString();
-                            if(estado.equals("si")){
-                                mapas.ChangeColor("notificaciones");
+                            if(estado.equals("si")) {
+                                mapa.ChangeColor("notificaciones");
                             }
-                            else{}
+                            else{mapa.ChangeColor("notificaciones");}
                         }
-                        else if(entrada.equals("RespSolNotificacion")){
-                            mapas.ResponderNotificacion(elemento);
-                        }
+                        //else if(entrada.equals("RespSolNotificacion")){
+                          //  mapa.ResponderNotificacion(elemento);
+
+                        //}**/
                         else {
 
-                            Conexion.mensaje = mensaje.toString();
+                            Conexion.mensaje = elemento;
                             System.out.print(Conexion.mensaje);
 
                         }
@@ -114,7 +120,7 @@ public class Conexion {
         }
 
     }
-    public String Entrada(){
+    public JsonElement Entrada(){
 //        System.out.println(Conexion.mensaje);
         return Conexion.mensaje;
     }

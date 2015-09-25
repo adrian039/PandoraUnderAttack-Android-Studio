@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText textclave;
     private Button registrar;
     public static String usuario;
-    Conexion conectar=new Conexion();
+    public static Conexion conectar=new Conexion();
     Gson gson=new Gson();
 
     /**
@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         clave = (TextView) findViewById(R.id.lblclave);
         textclave = (EditText) findViewById(R.id.txtclave);
         registrar = (Button) findViewById(R.id.btnregistrarse);
-
         findViewById(R.id.btnregistrarse).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,10 +69,9 @@ public class MainActivity extends AppCompatActivity {
                     String enviar_mensaje = gson.toJson(o);
                     conectar.Escribir(enviar_mensaje);
                     while(conectar.Entrada()==null){
-                        String respuesta = conectar.Entrada();
+
                     }
-                    String respuesta = conectar.Entrada().toString();
-                    JsonElement elemento = parser.parse(respuesta);
+                    JsonElement elemento = conectar.Entrada();
                     String respuestaIn = elemento.getAsJsonObject().get("estado").getAsString();
                     String estadoClan=elemento.getAsJsonObject().get("clan").getAsString();
                     Conexion.mensaje=null;
