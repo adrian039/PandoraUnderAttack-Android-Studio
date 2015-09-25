@@ -410,6 +410,7 @@ public class MapasActivity extends MainActivity {
                             conectar.Escribir(enviar_mensaje);
                             Toast.makeText(MapasActivity.this, "Solicitud Aceptada.",
                                     Toast.LENGTH_SHORT).show();
+                            Verificar();
                         }
                     })
                     .setNegativeButton("Denegar", null)
@@ -440,6 +441,9 @@ public class MapasActivity extends MainActivity {
             ChangeColor("notificaiones");
             Toast.makeText(MapasActivity.this, "Tienes nuevas notificaciones",
                     Toast.LENGTH_SHORT).show();
+        }
+        else{
+            bnotificacion.setBackgroundColor(getResources().getColor(android.R.color.background_light));
         }
 
     }

@@ -41,12 +41,10 @@ public class Chat extends AppCompatActivity {
                     JsonObject o = new JsonObject();
                     o.addProperty("tipo", "mensaje1");
                     o.addProperty("message", String.valueOf(escribe.getText()));
-                    o.addProperty("usuario",String.valueOf(MainActivity.usuario));
+                    o.addProperty("usuario", String.valueOf(MainActivity.usuario));
                     String enviar_msj = gson.toJson(o);
                     conectar.Escribir(enviar_msj);
-                    String respuesta;
-
-
+                    Chat.escribe.setText("");
                 }
 
 

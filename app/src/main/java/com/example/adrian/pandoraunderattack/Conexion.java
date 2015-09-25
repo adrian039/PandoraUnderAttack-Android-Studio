@@ -33,7 +33,7 @@ public class Conexion {
             public void run() {
                 try {
                         if(sockete==null){
-                        sockete = new Socket("192.168.0.124", 8080);
+                        sockete = new Socket("172.26.35.35", 8080);
                         Leer();}
 
                 } catch (Exception e) {
@@ -64,7 +64,6 @@ public class Conexion {
                             String chat = elemento.getAsJsonObject().get("message").getAsString();
                             System.out.println(chat);
                             Chat.caja.setText(Chat.caja.getText().toString()+ "\n"+ chat + "\n");
-                            Chat.escribe.setText("");
                         }
                         else {
 
