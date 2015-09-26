@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -60,17 +61,37 @@ public class MapasActivity extends MainActivity {
         zoom = CameraUpdateFactory.zoomTo(30);
         //Creacion del view del mapa
         mapGoogle = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapa)).getMap();
-        mapGoogle.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mapGoogle.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mapGoogle.setMyLocationEnabled(true);
-        setCoordenadas();
-        zoomUbicacion(coordenadas);
+
 
 
         try {
             setAtributos();
             addReliquia(getReliquia());
-        }catch (Exception e){}
+            addRecurso(9.8553881,-83.9122517,3);
+            addRecurso(9.8554552,-83.9123428,3);
+            addRecurso(9.8550349,-83.9125579,3);
+            addRecurso(9.8550405,-83.9125592,3);
+            addRecurso(9.8555253,-83.9126294,3);
+            addRecurso(9.8556712,-83.9125396,3);
+            addRecurso(9.8557025,-83.9122357,3);
+            addRecurso(9.8558137,-83.9119349,2);
+            addRecurso(9.8557102,-83.9116544,2);
+            addRecurso(9.8564728,-83.9111734,2);
+            addRecurso(9.8570006,-83.9111934,2);
+            addRecurso(9.8570463,-83.9111565,1);
+            addRecurso(9.8575361,-83.9103776,1);
+            addRecurso(9.8589111,-83.9112338,1);
+            setCoordenadas();
+            zoomUbicacion(coordenadas);
+           // getReliquiaEnemiga();
 
+        }catch (Exception e){}
+        final MediaPlayer hierroSound= MediaPlayer.create(this,R.raw.hierro);
+        final MediaPlayer gemasSound= MediaPlayer.create(this,R.raw.gemas);
+        final MediaPlayer reliquiaSound= MediaPlayer.create(this,R.raw.reliquia);
+        final MediaPlayer oroSound= MediaPlayer.create(this,R.raw.oro);
         //Listener para los markers
         mapGoogle.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             final private int Rango = 10;//Ajustar rango entre el recurso y nuestra unicacion actual
@@ -88,24 +109,28 @@ public class MapasActivity extends MainActivity {
                 } else {
                     //Agregar que cuando se toca un recurso se sume el recurso X a la cantidad total
                     if (marker.getTitle().equals("Gemas")) {
+                        gemasSound.start();
                         Recurso1 += 10;
                         puntaje += 8;
                         Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
                         //circleRecurso.remove();
                         marker.remove();
                     } else if (marker.getTitle().equals("Oro")) {
+                        oroSound.start();
                         Recurso2 += 100;
                         puntaje += 4;
                         Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
                         //circleRecurso.remove();
                         marker.remove();
                     } else if (marker.getTitle().equals("Hierro")) {
+                        hierroSound.start();
                         Recurso3 += 1000;
                         puntaje += 2;
                         Toast.makeText(getBaseContext(), "Añadiendo recursos...", Toast.LENGTH_LONG).show();
                         //circleRecurso.remove();
                         marker.remove();
                     } else if (marker.getTitle().equals("RELIQUIA")) {
+                        reliquiaSound.start();
                         Toast.makeText(getBaseContext(), "Esta es la reliquia del clan", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getBaseContext(), "Atrapaste la reliquia de otro clan", Toast.LENGTH_LONG).show();
@@ -149,7 +174,7 @@ public class MapasActivity extends MainActivity {
         });
         Verificar();
     }
-
+    //Getters
     public static int getRecurso1() {
         try {
             return Recurso1;
@@ -181,7 +206,11 @@ public class MapasActivity extends MainActivity {
     public static String getUsuario() {
         return Usuario;
     }
+    //Setters
 
+    /**
+     * Ajusta los valores de los recursos obtenidos del servidor
+     */
     public void setAtributos(){
         conectar.Leer();
         JsonParser parser = new JsonParser();
@@ -203,6 +232,9 @@ public class MapasActivity extends MainActivity {
 
     }
 
+    /**
+     * Envia al servidor los valores actualizados de los recursos del usuario
+     */
     public void updateAtributos(){
         conectar.Leer();
         JsonParser parser = new JsonParser();
@@ -219,7 +251,7 @@ public class MapasActivity extends MainActivity {
 
     }
     /**
-     * Establece las coordenadaes de la ubicacion actual
+     * Establece las coordenadas de la ubicacion actual
      */
     private void setCoordenadas() {
         Location ubicacion = mapGoogle.getMyLocation(); //Objeto location
@@ -292,7 +324,7 @@ public class MapasActivity extends MainActivity {
                Marker RecursoB = mapGoogle.addMarker(new MarkerOptions()
                        .position(Posicion)
                        .title("Oro") //Cmabiar por el nombre del recurso
-                       .snippet("NOTA ADICIONAL") //Agregar nota adicional
+                       .snippet("Toca para recolectar") //Agregar nota adicional
                      //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))); //Color del marcador
                        .icon(BitmapDescriptorFactory.fromBitmap(bMapOro))); //Color del marcador
            }
@@ -301,7 +333,7 @@ public class MapasActivity extends MainActivity {
                Marker RecursoC = mapGoogle.addMarker(new MarkerOptions()
                        .position(Posicion)
                        .title("Hierro") //Cmabiar por el nombre del recurso
-                       .snippet("NOTA ADICIONAL") //Agregar nota adiciona
+                       .snippet("Toca para recolectar") //Agregar nota adiciona
                      //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))); //Color del marcador
                        .icon(BitmapDescriptorFactory.fromBitmap(bMapHierro))); //Color del marcador
            }
@@ -312,6 +344,10 @@ public class MapasActivity extends MainActivity {
         }
     }
 
+    /**
+     * Obtiene las coordenadas de la reliquia del clan
+     * @return
+     */
     public LatLng getReliquia(){
         conectar.Leer();
         JsonParser parser = new JsonParser();
@@ -331,6 +367,28 @@ public class MapasActivity extends MainActivity {
         LatLng reliquia=new LatLng(lat,lng);
         return reliquia;
     }
+
+    /**
+     * Obtiene las reliquias de los clanes enemigos
+     */
+    public void getReliquiaEnemiga(){
+        conectar.Leer();
+        JsonParser parser = new JsonParser();
+        JsonObject o = new JsonObject();
+        o.addProperty("tipo", "reliquiaEnemiga");
+        o.addProperty("nombre", Usuario);
+        String enviarClan = gson.toJson(o);
+        conectar.Escribir(enviarClan);
+        while(conectar.Entrada()==null){
+
+        }
+        while(conectar.Entrada()!=null){
+            JsonElement elemento = parser.parse(conectar.Entrada().toString());
+            addReliquiaEnemiga(elemento.getAsJsonObject().get("clan").getAsString(),new LatLng(elemento.getAsJsonObject().get("reliquiaLat").getAsDouble(),
+                    elemento.getAsJsonObject().get("reliquiaLng").getAsDouble()));
+        }
+        Conexion.mensaje=null;
+    }
     /**
      * Añade la reliquia del clan que esta unido el cliente
      */
@@ -348,18 +406,19 @@ public class MapasActivity extends MainActivity {
     /**
      * Añade las reliquias de otros clanes
      */
-    private void addReliquiaEnemiga(){ //Revisar nombre
-        final double LatiReliquia=coordenadas.latitude;
-        final double LongiReliquia=coordenadas.longitude;
-
+    private void addReliquiaEnemiga(String Nombre, LatLng ubi){ //Revisar nombre
         Marker ReliquiaEnemiga = mapGoogle.addMarker(new MarkerOptions()
-                .position(coordenadas)
+                .position(ubi)
                 .title("Reliquia Enemiga") //Cmabiar por el nombre del recurso
-                .snippet("NOTA ADICIONAL") //Agregar nota adicional
+                .snippet(Nombre) //Agregar nota adicional
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))); //Color del marcador
 
     }
 
+    /**
+     * Cambio del color del boton de notificaciones
+     * @param boton
+     */
     public void ChangeColor(String boton){
         if(boton.equals("notificaiones")) {
             bnotificacion.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
@@ -378,6 +437,9 @@ public class MapasActivity extends MainActivity {
         }
     }
 
+    /**
+     * Manda respuesta a las notificaciones
+     */
     public void ResponderNotificacion(){
         JsonObject o = new JsonObject();
         o.addProperty("tipo", "SolNotificacion");
@@ -422,6 +484,10 @@ public class MapasActivity extends MainActivity {
                     Toast.LENGTH_SHORT).show();
         }
     }
+
+    /**
+     * Verifica si hay notificaciones
+      */
     public void Verificar(){
         JsonParser parser = new JsonParser();
         JsonObject o = new JsonObject();

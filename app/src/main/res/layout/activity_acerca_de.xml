@@ -1,0 +1,125 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.adrian.pandoraunderattack.AcercaDeActivity"
+    android:background="@drawable/fondo">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Desarrolladores"
+        android:id="@+id/textView"
+        android:background="#5b9da9"
+        android:layout_marginLeft="-130dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/imageView5" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Adrián"
+        android:id="@+id/adrian"
+        android:layout_marginLeft="40dp"
+        android:background="#5b9da9"
+        android:layout_below="@+id/imageView5"
+        android:layout_toStartOf="@+id/esteban" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imageView"
+        android:src="@drawable/adrian"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/textView"
+        android:layout_alignStart="@+id/adrian"
+        android:layout_marginRight="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Alejandro"
+        android:id="@+id/alejandro"
+        android:layout_marginLeft="20dp"
+        android:background="#5b9da9"
+        android:layout_below="@+id/imageView2"
+        android:layout_alignStart="@+id/imageView" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imageView2"
+        android:src="@drawable/alejandro"
+        android:layout_marginLeft="0dp"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/adrian" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Daniela"
+        android:id="@+id/daniela"
+        android:layout_marginLeft="0dp"
+        android:background="#5b9da9"
+        android:layout_below="@+id/imageView3"
+        android:layout_toEndOf="@+id/esteban" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imageView3"
+        android:src="@drawable/daniela"
+        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/imageView2"
+        android:layout_alignStart="@+id/imageView5" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Fabrizio"
+        android:id="@+id/fabrizio"
+        android:layout_marginLeft="25dp"
+        android:background="#5b9da9"
+        android:layout_below="@+id/imageView5"
+        android:layout_alignStart="@+id/imageView3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Esteban"
+        android:id="@+id/esteban"
+        android:layout_marginLeft="25dp"
+        android:background="#5b9da9"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imageView4"
+        android:src="@drawable/esteban"
+        android:layout_marginLeft="10dp"
+        android:layout_above="@+id/esteban"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-20dp" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imageView5"
+        android:src="@drawable/fabrizio"
+        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView"
+        android:layout_marginStart="34dp" />
+
+</RelativeLayout>

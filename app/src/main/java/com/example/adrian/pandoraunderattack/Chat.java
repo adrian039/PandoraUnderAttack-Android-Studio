@@ -13,6 +13,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+/**
+ * Clase del chat del clan
+ * @author Alejandro Pacheco
+ */
 public class Chat extends AppCompatActivity {
 
     private Button enviar;

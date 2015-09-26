@@ -60,6 +60,15 @@
             android:name=".Chat"
             android:label="@string/title_activity_chat" >
         </activity>
+        <activity
+            android:name=".AcercaDeActivity"
+            android:label="@string/title_activity_acerca_de">
+            <intent-filter>
+                <action android:name="android.intent.action.ACERCA" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

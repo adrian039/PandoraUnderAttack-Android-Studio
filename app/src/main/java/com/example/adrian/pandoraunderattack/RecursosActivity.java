@@ -37,6 +37,9 @@ public class RecursosActivity extends MapasActivity {
         updateRecursos();
     }
 
+    /**
+     * Actualiza la lista de recursos
+     */
     public void updateRecursos(){
         try{
             //valores de los recursos

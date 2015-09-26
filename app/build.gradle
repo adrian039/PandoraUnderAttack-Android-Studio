@@ -5,7 +5,7 @@ android {
         debug {
             keyAlias 'pandora'
             keyPassword 'thekillers11'
-            storeFile file('/home/adrian/llavePandora.keystore')
+            storeFile file('C:/Program Files/Java/jre1.8.0_60/bin/llavePandora.keystore')
             storePassword 'thekillers11'
         }
     }

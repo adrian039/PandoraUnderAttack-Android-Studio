@@ -6,7 +6,7 @@ import com.google.gson.JsonParser;
 /**
 
 /**
- * Created by adrian on 22/09/15.
+ * Created by Daniela Hernandez and Andrian Sanchez
  */
 public class Notificaciones extends MainActivity{
     public Notificaciones(){

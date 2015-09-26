@@ -18,7 +18,7 @@ import com.google.gson.JsonParser;
 
 /**
  * Pantalla de registro de un nuevo clan
- * @author Adrian Sanchez
+ * @author Adrian Sanchez and Daniela Hernandez
  */
 public class RegistrarClan extends MainActivity {
     private ImageView escudo;
