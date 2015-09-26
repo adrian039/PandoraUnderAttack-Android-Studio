@@ -16,6 +16,7 @@ import java.net.Socket;
 public class Conexion {
     public static JsonElement mensaje;
     public static Socket sockete = null;
+    public static String mensajeria;
     BufferedReader lector = null;
     PrintWriter escritor = null;
     Thread principal=null;
@@ -63,7 +64,8 @@ public class Conexion {
                         else if(entrada.equals("chat")){
                             String chat = elemento.getAsJsonObject().get("message").getAsString();
                             System.out.println(chat);
-                            Chat.caja.setText(Chat.caja.getText().toString()+ "\n"+ chat + "\n");
+                            mensajeria = Chat.caja.getText().toString()+ "\n"+ chat + "\n";
+                            Chat.caja.setText(mensajeria);
                         }
                         else {
 
