@@ -161,9 +161,9 @@ public class MapasActivity extends MainActivity {
             }
         });
         findViewById(R.id.bChat).setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View v) {
                 startActivity(new Intent(MapasActivity.this, Chat.class));
+                Chat.caja.setText(Conexion.mensajeria);
             }
         });
         bnotificacion.setOnClickListener(new View.OnClickListener() {
